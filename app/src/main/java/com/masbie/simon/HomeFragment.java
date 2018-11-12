@@ -67,7 +67,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        spinner1 = (MaterialSpinner) view.findViewById(R.id.spinner);
+//        spinner1 = (MaterialSpinner) view.findViewById(R.id.spinner);
     }
 
     @Override

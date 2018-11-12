@@ -1,12 +1,17 @@
 package com.masbie.simon;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 
 
 /**
@@ -26,6 +31,8 @@ public class DecryptFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    EditText keyDec, hasilScanDec, hasilDec;
+    Button btDec, cobaBar;
 
     private OnFragmentInteractionListener mListener;
 
@@ -49,6 +56,25 @@ public class DecryptFragment extends Fragment {
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        keyDec = (EditText) view.findViewById(R.id.keyDec);
+        hasilScanDec = (EditText) view.findViewById(R.id.hasilScan);
+        hasilDec = (EditText) view.findViewById(R.id.hasilDec);
+        btDec = (Button) view.findViewById(R.id.btDecrypt);
+        cobaBar = (Button) view.findViewById(R.id.cobBarcode);
+
+        cobaBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent hh = new Intent(getActivity(), CekBarcode.class);
+                startActivity(hh);
+            }
+        });
+
     }
 
     @Override

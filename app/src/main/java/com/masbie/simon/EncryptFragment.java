@@ -3,10 +3,17 @@ package com.masbie.simon;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+
+import com.jaredrummler.materialspinner.MaterialSpinner;
 
 
 /**
@@ -22,6 +29,9 @@ public class EncryptFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    EditText keyEnc, plainEnc, chipEnc;
+    Button btEnc, btEncQr, btEncbar;
+    ImageView qrCode, barcode;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -49,6 +59,18 @@ public class EncryptFragment extends Fragment {
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        keyEnc = (EditText) view.findViewById(R.id.keyEnc);
+        plainEnc = (EditText) view.findViewById(R.id.plainEnc);
+        chipEnc = (EditText) view.findViewById(R.id.chipEnc);
+        btEnc = (Button) view.findViewById(R.id.btEnc);
+        btEncQr = (Button) view.findViewById(R.id.btGenqr);
+        btEncbar = (Button) view.findViewById(R.id.btGenbar);
+        qrCode = (ImageView) view.findViewById(R.id.qrGambar);
+        barcode = (ImageView) view.findViewById(R.id.barcodeGambar);
     }
 
     @Override
