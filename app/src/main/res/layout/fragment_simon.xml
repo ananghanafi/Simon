@@ -16,16 +16,20 @@
 
 
             <LinearLayout
-                android:padding="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="10dp">
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="10dp"></LinearLayout>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Blok Size" />
 
                 <com.jaredrummler.materialspinner.MaterialSpinner
                     android:id="@+id/spinner"
@@ -40,6 +44,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="10dp"></LinearLayout>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Key Size" />
+
                 <com.jaredrummler.materialspinner.MaterialSpinner
                     android:id="@+id/spinner2"
                     android:layout_width="match_parent"
@@ -48,6 +57,11 @@
                     android:paddingTop="16dp"
                     app:ms_dropdown_height="wrap_content"
                     app:ms_dropdown_max_height="350dp" />
+
+                <TextView
+                    android:id="@+id/cekTulis"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -59,7 +73,7 @@
                     android:orientation="horizontal">
 
                     <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="170dp"
                         android:layout_height="wrap_content">
 
 
@@ -73,7 +87,7 @@
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="170dp"
                         android:layout_height="wrap_content">
 
 
@@ -93,7 +107,7 @@
                     android:orientation="horizontal">
 
                     <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="170dp"
                         android:layout_height="wrap_content">
 
                         <EditText
@@ -106,7 +120,7 @@
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="170dp"
                         android:layout_height="wrap_content">
 
                         <EditText

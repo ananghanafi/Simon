@@ -100,5 +100,6 @@ public class BarcodeGraphic extends GraphicOverlay.Graphic {
 
         // Draws a label at the bottom of the barcode indicate the barcode value that was detected.
         canvas.drawText(barcode.rawValue, rect.left, rect.bottom, mTextPaint);
+      //  String tdt = String.copyValueOf(barcode.rawValue);
     }
 }

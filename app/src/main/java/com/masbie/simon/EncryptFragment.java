@@ -1,6 +1,8 @@
 package com.masbie.simon;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -12,7 +14,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.google.android.gms.vision.barcode.Barcode;
+import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
 
@@ -32,6 +37,7 @@ public class EncryptFragment extends Fragment {
     EditText keyEnc, plainEnc, chipEnc;
     Button btEnc, btEncQr, btEncbar;
     ImageView qrCode, barcode;
+    TextView textView;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -71,6 +77,29 @@ public class EncryptFragment extends Fragment {
         btEncbar = (Button) view.findViewById(R.id.btGenbar);
         qrCode = (ImageView) view.findViewById(R.id.qrGambar);
         barcode = (ImageView) view.findViewById(R.id.barcodeGambar);
+        btEncQr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                genQr();
+            }
+        });
+
+    }
+
+    private void genQr() {
+        System.out.println("Coba Lagi");
+        BarcodeDetector detector =
+                new BarcodeDetector.Builder(getActivity().getApplicationContext())
+                        .setBarcodeFormats(Barcode.QR_CODE)
+                        .build();
+        if (!detector.isOperational()) {
+            textView.setText("Could not set up the detector!");
+            return;
+        }
+        Bitmap myBitmap = BitmapFactory.decodeResource(
+                getActivity().getApplicationContext().getResources(),
+                Barcode.QR_CODE);
+        qrCode.setImageBitmap(myBitmap);
     }
 
     @Override

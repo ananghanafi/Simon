@@ -23,5 +23,7 @@
         <activity android:name=".CekBarcode"></activity>
         <activity android:name=".BarcodeCaptureActivity"></activity>
     </application>
-
+    <meta-data
+        android:name="com.google.android.gms.vision.DEPENDENCIES"
+        android:value="barcode" />
 </manifest>
