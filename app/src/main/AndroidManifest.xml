@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.masbie.simon">
+
     <uses-feature android:name="android.hardware.camera" />
 
     <uses-permission android:name="android.permission.CAMERA" />
+
+    <meta-data
+        android:name="com.google.android.gms.vision.DEPENDENCIES"
+        android:value="barcode" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_new_logo"
@@ -20,10 +26,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CekBarcode"></activity>
-        <activity android:name=".BarcodeCaptureActivity"></activity>
+        <activity android:name=".CekBarcode" />
+        <activity android:name=".BarcodeCaptureActivity" />
+        <activity android:name=".ZxingBarcode" />
+        <activity android:name=".HasilZxing"></activity>
     </application>
-    <meta-data
-        android:name="com.google.android.gms.vision.DEPENDENCIES"
-        android:value="barcode" />
+
 </manifest>

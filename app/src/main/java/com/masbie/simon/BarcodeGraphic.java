@@ -15,12 +15,14 @@
  */
 package com.masbie.simon;
 
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.widget.Toast;
 
-import  com.masbie.simon.ui.camera.GraphicOverlay;
+import com.masbie.simon.ui.camera.GraphicOverlay;
 import com.google.android.gms.vision.barcode.Barcode;
 
 /**
@@ -100,6 +102,16 @@ public class BarcodeGraphic extends GraphicOverlay.Graphic {
 
         // Draws a label at the bottom of the barcode indicate the barcode value that was detected.
         canvas.drawText(barcode.rawValue, rect.left, rect.bottom, mTextPaint);
-      //  String tdt = String.copyValueOf(barcode.rawValue);
+        String tdt = barcode.rawValue;
+        System.out.println("Coba " + tdt);
+        getHasil(tdt);
+
+
     }
+
+    public String getHasil(String hasil) {
+       //] Toast.makeText(BarcodeGraphic.class, hasil, Toast.LENGTH_SHORT).show();
+        return hasil;
+    }
+
 }

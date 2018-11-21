@@ -17,49 +17,65 @@
             android:orientation="vertical"
             android:padding="10dp">
 
+            <!--<SurfaceView-->
+                <!--android:id="@+id/surf"-->
+                <!--android:layout_width="300dp"-->
+                <!--android:layout_height="300dp" />-->
+            <!--<com.masbie.simon.ui.camera.CameraSourcePreview-->
+            <!--android:id="@+id/preview"-->
+            <!--android:layout_width="300dp"-->
+            <!--android:layout_height="300dp">-->
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/genbar"
-                android:layout_width="230dp"
-                android:layout_height="300dp"
-                android:layout_margin="65dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="8dp">
+            <!--<com.masbie.simon.ui.camera.GraphicOverlay-->
+            <!--android:id="@+id/graphicOverlay"-->
+            <!--android:layout_width="300dp"-->
+            <!--android:layout_height="300dp" />-->
+            <!--</com.masbie.simon.ui.camera.CameraSourcePreview>-->
+            <!--<android.support.v7.widget.CardView-->
+            <!--android:id="@+id/genbar"-->
+            <!--android:layout_width="230dp"-->
+            <!--android:layout_height="300dp"-->
+            <!--android:layout_margin="65dp"-->
+            <!--app:cardCornerRadius="8dp"-->
+            <!--app:cardElevation="8dp">-->
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
+            <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_margin="10dp"-->
+            <!--android:gravity="center_horizontal"-->
+            <!--android:orientation="vertical">-->
+
+            <!--&lt;!&ndash;<SurfaceView&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/cekBar"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="match_parent" />&ndash;&gt;-->
+            <!--&lt;!&ndash;<com.masbie.simon.ui.camera.CameraSourcePreview&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/preview"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="match_parent">&ndash;&gt;-->
+
+            <!--&lt;!&ndash;<com.masbie.simon.ui.camera.GraphicOverlay&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/graphicOverlay"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="match_parent" />&ndash;&gt;-->
+            <!--&lt;!&ndash;</com.masbie.simon.ui.camera.CameraSourcePreview>&ndash;&gt;-->
 
 
-                    <com.masbie.simon.ui.camera.CameraSourcePreview
-                        android:id="@+id/preview"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="16dp"-->
+            <!--android:text="Code 128"-->
+            <!--android:textColor="@color/colorPrimary"-->
+            <!--android:textSize="16dp"-->
+            <!--android:textStyle="bold">-->
 
-                        <com.masbie.simon.ui.camera.GraphicOverlay
-                            android:id="@+id/graphicOverlay"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-                    </com.masbie.simon.ui.camera.CameraSourcePreview>
+            <!--</TextView>-->
 
+            <!--</LinearLayout>-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="Code 128"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="16dp"
-                        android:textStyle="bold">
-
-                    </TextView>
-
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
+            <!--</android.support.v7.widget.CardView>-->
 
             <TextView
                 android:id="@+id/decWaktu"
