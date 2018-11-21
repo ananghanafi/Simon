@@ -1,13 +1,11 @@
 package com.masbie.simon;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +13,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jaredrummler.materialspinner.MaterialSpinner;
-
-import java.security.Key;
 
 
 /**
@@ -48,7 +44,7 @@ public class SimonFragment extends Fragment {
     int Rounds = 0;
     String tempCost = "";
     int c, f;
-    int indexAwal, pecahan;
+    int indexAwal, HexWordSize;
     int bit;
 
     int[] z0 = {1, 1, 1, 1, 1, 0, 1, 0, 0, 0,
@@ -223,7 +219,7 @@ public class SimonFragment extends Fragment {
             c = 0xfffc;
             f = 0xffff;
             indexAwal = 12;
-            pecahan = 6;
+            HexWordSize = 6;
             bit = 24;
 //            editText1.setText(Word_Size);
 //            editText2.setText(Const_Seq);
@@ -395,7 +391,7 @@ public class SimonFragment extends Fragment {
         int[] k = new int[Rounds];
         /*Inisialisasi k[keyWords-1]..k[0]*/
         for (int i = 0; i < Keywords; i++) {
-            int index = indexAwal - (i * pecahan);
+            int index = indexAwal - (i * HexWordSize);
             k[i] = Integer.parseInt(key.substring(index, index + 6), 16) & f;
 //            System.out.println(key.substring(index, index + 6) + "|" + Integer.toBinaryString(k[i]));
         }
