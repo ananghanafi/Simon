@@ -18,7 +18,14 @@ import android.widget.TextView;
 
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
 import com.jaredrummler.materialspinner.MaterialSpinner;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
+
+import static com.google.zxing.BarcodeFormat.CODE_128;
 
 
 /**
@@ -77,30 +84,59 @@ public class EncryptFragment extends Fragment {
         btEncbar = (Button) view.findViewById(R.id.btGenbar);
         qrCode = (ImageView) view.findViewById(R.id.qrGambar);
         barcode = (ImageView) view.findViewById(R.id.barcodeGambar);
+
+
         btEncQr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                genQr();
+              String hasil =  keyEnc.getText().toString();
+                MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+                try {
+                    BitMatrix bitMatrix = multiFormatWriter.encode(hasil, BarcodeFormat.QR_CODE, 800, 800);
+                    BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+                    Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+                    qrCode.setImageBitmap(bitmap);
+                } catch (WriterException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+        btEncbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String hasil = keyEnc.getText().toString();
+                MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+                try {
+                    BitMatrix bitMatrix1 = multiFormatWriter.encode(hasil, BarcodeFormat.CODE_128, 800,400);
+                    BarcodeEncoder barcodeEncoder1 = new BarcodeEncoder();
+                    Bitmap bitmap1 = barcodeEncoder1.createBitmap(bitMatrix1);
+                    barcode.setImageBitmap(bitmap1);
+                } catch (WriterException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
 
+
     }
 
-    private void genQr() {
-        System.out.println("Coba Lagi");
-        BarcodeDetector detector =
-                new BarcodeDetector.Builder(getActivity().getApplicationContext())
-                        .setBarcodeFormats(Barcode.QR_CODE)
-                        .build();
-        if (!detector.isOperational()) {
-            textView.setText("Could not set up the detector!");
-            return;
-        }
-        Bitmap myBitmap = BitmapFactory.decodeResource(
-                getActivity().getApplicationContext().getResources(),
-                Barcode.QR_CODE);
-        qrCode.setImageBitmap(myBitmap);
-    }
+//    private void genQr() {
+//        System.out.println("Coba Lagi");
+//        BarcodeDetector detector =
+//                new BarcodeDetector.Builder(getActivity().getApplicationContext())
+//                        .setBarcodeFormats(Barcode.QR_CODE)
+//                        .build();
+//        if (!detector.isOperational()) {
+//            textView.setText("Could not set up the detector!");
+//            return;
+//        }
+//        Bitmap myBitmap = BitmapFactory.decodeResource(
+//                getActivity().getApplicationContext().getResources(),
+//                Barcode.QR_CODE);
+//        qrCode.setImageBitmap(myBitmap);
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
