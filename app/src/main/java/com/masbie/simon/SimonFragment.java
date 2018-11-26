@@ -171,6 +171,7 @@ public class SimonFragment extends Fragment {
     }
 
     public void pisah() {
+        
         blockSize = Integer.parseInt(strSpinner1[posisi1]);
         keySize = Integer.parseInt(strSpinner2[posisi2]);
         System.out.println("keySize apa");
