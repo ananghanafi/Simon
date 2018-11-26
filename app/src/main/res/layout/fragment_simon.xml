@@ -60,6 +60,7 @@
 
                 <TextView
                     android:id="@+id/cekTulis"
+                    android:text="hjhu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
