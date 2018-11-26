@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     private Fragment fragment;
     private FragmentManager fragmentManager;
+    private String gg;
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -64,7 +65,13 @@ public class MainActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frameLayout, new HomeFragment()).commit();
+        gg = getIntent().getStringExtra("ambilNilai");
+        if (gg != null) {
+            fragmentTransaction.replace(R.id.frameLayout, new DecryptFragment()).commit();
+        } else {
+
+            fragmentTransaction.replace(R.id.frameLayout, new HomeFragment()).commit();
+        }
 
 
     }

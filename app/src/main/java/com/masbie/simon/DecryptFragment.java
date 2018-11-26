@@ -29,6 +29,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,8 +75,21 @@ public class DecryptFragment extends Fragment implements ZXingScannerView.Result
     private ZXingScannerView mScannerView;
     Intent tampil;
     Bundle extras;
-    TextView textView;
+    TextView textView, hasilDecT;
+    LinearLayout linDecWakt;
+    private long startTime, endTime, elapTime;
     String gg;
+    int Block_Size = 0;
+    int Key_Size = 64;
+    int Word_Size = 0;
+    int Keywords = 4;
+    int Const_Seq = 0;
+    int Rounds = 0;
+    String tempCost = "";
+    int c, f;
+    int indexAwal, HexWordSize;
+    int bit;
+    String ambilKey, hasilScanS;
 
     private OnFragmentInteractionListener mListener;
 //    private static final String TAG = "Barcode-reader";
@@ -127,14 +141,48 @@ public class DecryptFragment extends Fragment implements ZXingScannerView.Result
         mScannerView = new ZXingScannerView(getActivity());   // Programmatically initialize the scanner view
 
         keyDec = (EditText) view.findViewById(R.id.keyDec);
-        hasilScanDec = (EditText) view.findViewById(R.id.hasilScan);
-        hasilDec = (EditText) view.findViewById(R.id.hasilDec);
+        //  hasilScanDec = (EditText) view.findViewById(R.id.hasilScan);
+        //hasilDec = (EditText) view.findViewById(R.id.hasilDec);
         btDec = (Button) view.findViewById(R.id.btDecrypt);
         cobaBar = (Button) view.findViewById(R.id.cobBarcode);
-        textView = (TextView) view.findViewById(R.id.decWaktu);
-       gg = getActivity().getIntent().getStringExtra("ambilNilai");
-    //    gg = getArguments().getString("my_key");
-       textView.setText(String.valueOf(gg));
+        textView = (TextView) view.findViewById(R.id.hasilScanT);
+        hasilDecT = (TextView) view.findViewById(R.id.hasilDecT);
+        linDecWakt = (LinearLayout) view.findViewById(R.id.lindecWaktu);
+        gg = getActivity().getIntent().getStringExtra("ambilNilai");
+        //    gg = getArguments().getString("my_key");
+        textView.setText(String.valueOf(gg));
+        btDec.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (ambilKey == null || hasilScanS == null || ambilKey.equals("") ||
+                        hasilScanS.equals("") || ambilKey.equals(" ") || hasilScanS.equals(" ")) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("Warning..!!!");
+                    builder.setMessage("Hasil scan dan key nya harus terisi").setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    });
+                    AlertDialog alert1 = builder.create();
+                    alert1.show();
+
+                } else {
+                    //startTime = System.nanoTime();
+                    startTime = System.currentTimeMillis();
+//                    keyExpansion(ambilKey);
+//                    encrypt();
+                    for (int j = 0; j < 1070; j++) {
+                        Toast.makeText(getActivity(), "Coba COunt " + j, Toast.LENGTH_SHORT).show();
+                    }
+                    // endTime = System.nanoTime();
+                    endTime = System.currentTimeMillis();
+                    elapTime = endTime - startTime;
+                    textView.setText("Waktu untuk encrypt = " + elapTime+" ms");
+                    linDecWakt.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         cobaBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -174,6 +222,64 @@ public class DecryptFragment extends Fragment implements ZXingScannerView.Result
 ////        Barcode thisCode = barcodes.valueAt(0);
 ////        TextView txtView = (TextView) findViewById(R.id.txtContent);
 ////        txtView.setText(thisCode.rawValue);
+    }
+
+    private void encrypt() {
+        int x = 0, y = 0, tmp;
+        for (int j = Rounds - 1; j >= 0; j--) {
+            tmp = y;
+            //  y = (x ^ (rotateLeft(y, 1, 24) & rotateLeft(y, 8, 24)) ^ rotateLeft(y, 2, 24) ^ key[j]) & f;//y = x XOR ((S^1)y AND (S^8)y) XOR (S^2)y XOR k[i]
+            x = tmp;//x = y
+        }
+
+    }
+
+    private void decrypt() {
+        int x = 0, y = 0, tmp;
+        for (int j = Rounds - 1; j >= 0; j--) {
+            tmp = y;
+            //       y = (x ^ (rotateLeft(y, 1, 24) & rotateLeft(y, 8, 24)) ^ rotateLeft(y, 2, 24) ^ key[j]) & 0xFFFFFF;//y = x XOR ((S^1)y AND (S^8)y) XOR (S^2)y XOR k[i]
+            x = tmp;//x = y
+        }
+
+    }
+
+    public int[] keyExpansion(String key) {
+        int[] k = new int[Rounds];
+        /*Inisialisasi k[keyWords-1]..k[0]*/
+        for (int i = 0; i < Keywords; i++) {
+            int index = indexAwal - (i * HexWordSize);
+            k[i] = Integer.parseInt(key.substring(index, index + 6), 16) & f;
+//            System.out.println(key.substring(index, index + 6) + "|" + Integer.toBinaryString(k[i]));
+        }
+        /*Ekspansi Kunci*/
+        for (int i = Keywords; i < Rounds; i++) {
+            int tmp = rotateRight(k[i - 1], 3, bit);
+//            System.out.println(Integer.toBinaryString(k[i - 1]) + "|" + Integer.toBinaryString(tmp));
+            if (Keywords == 4) {
+                tmp ^= k[i - 3];
+            }
+//            System.out.println(Integer.toBinaryString(tmp) + "|" + Integer.toBinaryString(rotateRight(tmp, 1, 24)));
+            tmp = tmp ^ rotateRight(tmp, 1, bit);
+//            System.out.println(Integer.toBinaryString(tmp));
+//            System.out.println("");
+            //k[i] = (tmp ^ k[i - Keywords] ^ z0[(i - Keywords) % 62] ^ c) & 0xFFFFFF;
+//            System.out.println("tmp = " + Integer.toBinaryString(tmp));
+//            System.out.println("k[" + (i - keyWords) + "] = " + Integer.toBinaryString(k[i - keyWords]));
+//            System.out.println("z0[" + ((i - keyWords) % 62) + "] = " + Integer.toBinaryString(z0[(i - keyWords) % 62]));
+//            System.out.println("c = " + Integer.toBinaryString(c));
+//            System.out.println("k[" + i + "] = " + Integer.toBinaryString(k[i]));
+//            System.out.println("");
+        }
+        return k;
+    }
+
+    public int rotateRight(int n, int s, int bits) {
+        return ((n >>> s) | (n << (bits - s)));//Rotasi nilai bit RGB per pixel ke kanan
+    }
+
+    public int rotateLeft(int n, int s, int bits) {
+        return ((n << s) | (n >>> (bits - s)));//Rotasi nilai bit RGB per pixel ke kiri
     }
 
     /**

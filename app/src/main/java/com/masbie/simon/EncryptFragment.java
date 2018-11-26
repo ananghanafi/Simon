@@ -1,6 +1,8 @@
 package com.masbie.simon;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -14,7 +16,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
@@ -44,7 +48,19 @@ public class EncryptFragment extends Fragment {
     EditText keyEnc, plainEnc, chipEnc;
     Button btEnc, btEncQr, btEncbar;
     ImageView qrCode, barcode;
-    TextView textView;
+    TextView textView, chipEncT;
+    LinearLayout linQR, liBar, linWaktu;
+    long startTime, endTime, elapTime;
+    int Block_Size = 0;
+    int Key_Size = 64;
+    int Word_Size = 0;
+    int Keywords = 4;
+    int Const_Seq = 0;
+    int Rounds = 0;
+    String tempCost = "";
+    int c, f;
+    int indexAwal, HexWordSize;
+    int bit;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -78,23 +94,78 @@ public class EncryptFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         keyEnc = (EditText) view.findViewById(R.id.keyEnc);
         plainEnc = (EditText) view.findViewById(R.id.plainEnc);
-        chipEnc = (EditText) view.findViewById(R.id.chipEnc);
+        // chipEnc = (EditText) view.findViewById(R.id.chipEnc);
+        chipEncT = (TextView) view.findViewById(R.id.tChip);
         btEnc = (Button) view.findViewById(R.id.btEnc);
         btEncQr = (Button) view.findViewById(R.id.btGenqr);
         btEncbar = (Button) view.findViewById(R.id.btGenbar);
         qrCode = (ImageView) view.findViewById(R.id.qrGambar);
         barcode = (ImageView) view.findViewById(R.id.barcodeGambar);
+        linQR = (LinearLayout) view.findViewById(R.id.linQR);
+        liBar = (LinearLayout) view.findViewById(R.id.linBar);
+        linWaktu = (LinearLayout) view.findViewById(R.id.linEncWaktu);
+        textView = (TextView) view.findViewById(R.id.encWaktu);
+//        linQR.setVisibility(View.INVISIBLE);
+//        liBar.setVisibility(view.INVISIBLE);
+        chipEncT.setText("Coba");
 
+        Word_Size = 24;
+        Keywords = 3;
+        Const_Seq = 0;
+        Rounds = 36;
+        tempCost = "Z0";
+        c = 0xfffc;
+        f = 0xffff;
+        indexAwal = 12;
+        HexWordSize = 6;
+        bit = 24;
+        btEnc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String ambilKey = keyEnc.getText().toString();
+                String ambilPlaint = plainEnc.getText().toString();
+                Toast.makeText(getActivity(), "Tes ", Toast.LENGTH_SHORT).show();
+                if (ambilKey == null || ambilPlaint == null || ambilKey.equals("") ||
+                        ambilPlaint.equals("") || ambilKey.equals(" ") || ambilPlaint.equals(" ")) {
 
+                    Toast.makeText(getActivity(), "Setealah Tes ", Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("Warning..!!!");
+                    builder.setMessage("Isi key dan plaint text dengan benar").setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    });
+                    AlertDialog alert1 = builder.create();
+                    alert1.show();
+
+                } else {
+                    //  startTime = System.nanoTime();
+                    startTime = System.currentTimeMillis();
+//                    keyExpansion(ambilKey);
+//                    encrypt();
+                    for (int j = 0; j < 1000; j++) {
+                        Toast.makeText(getActivity(), "Coba Count " + j, Toast.LENGTH_SHORT).show();
+                    }
+                    //  endTime = System.nanoTime();
+                    endTime = System.currentTimeMillis();
+                    elapTime = endTime - startTime;
+                    textView.setText("Waktu untuk encrypt = " + elapTime + " ms");
+                    linWaktu.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         btEncQr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              String hasil =  keyEnc.getText().toString();
+                String hasil = chipEncT.getText().toString();
                 MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
                 try {
                     BitMatrix bitMatrix = multiFormatWriter.encode(hasil, BarcodeFormat.QR_CODE, 800, 800);
                     BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
                     Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+                    linQR.setVisibility(View.VISIBLE);
                     qrCode.setImageBitmap(bitmap);
                 } catch (WriterException e) {
                     e.printStackTrace();
@@ -105,12 +176,13 @@ public class EncryptFragment extends Fragment {
         btEncbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String hasil = keyEnc.getText().toString();
+                String hasil = chipEncT.getText().toString();
                 MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
                 try {
-                    BitMatrix bitMatrix1 = multiFormatWriter.encode(hasil, BarcodeFormat.CODE_128, 800,400);
+                    BitMatrix bitMatrix1 = multiFormatWriter.encode(hasil, BarcodeFormat.CODE_128, 800, 400);
                     BarcodeEncoder barcodeEncoder1 = new BarcodeEncoder();
                     Bitmap bitmap1 = barcodeEncoder1.createBitmap(bitMatrix1);
+                    liBar.setVisibility(View.VISIBLE);
                     barcode.setImageBitmap(bitmap1);
                 } catch (WriterException e) {
                     e.printStackTrace();
@@ -122,6 +194,63 @@ public class EncryptFragment extends Fragment {
 
     }
 
+    private void encrypt() {
+        int x = 0, y = 0, tmp;
+        for (int j = Rounds - 1; j >= 0; j--) {
+            tmp = y;
+            //  y = (x ^ (rotateLeft(y, 1, 24) & rotateLeft(y, 8, 24)) ^ rotateLeft(y, 2, 24) ^ key[j]) & f;//y = x XOR ((S^1)y AND (S^8)y) XOR (S^2)y XOR k[i]
+            x = tmp;//x = y
+        }
+
+    }
+
+    private void decrypt() {
+        int x = 0, y = 0, tmp;
+        for (int j = Rounds - 1; j >= 0; j--) {
+            tmp = y;
+            //       y = (x ^ (rotateLeft(y, 1, 24) & rotateLeft(y, 8, 24)) ^ rotateLeft(y, 2, 24) ^ key[j]) & 0xFFFFFF;//y = x XOR ((S^1)y AND (S^8)y) XOR (S^2)y XOR k[i]
+            x = tmp;//x = y
+        }
+
+    }
+
+    public int[] keyExpansion(String key) {
+        int[] k = new int[Rounds];
+        /*Inisialisasi k[keyWords-1]..k[0]*/
+        for (int i = 0; i < Keywords; i++) {
+            int index = indexAwal - (i * HexWordSize);
+            k[i] = Integer.parseInt(key.substring(index, index + 6), 16) & f;
+//            System.out.println(key.substring(index, index + 6) + "|" + Integer.toBinaryString(k[i]));
+        }
+        /*Ekspansi Kunci*/
+        for (int i = Keywords; i < Rounds; i++) {
+            int tmp = rotateRight(k[i - 1], 3, bit);
+//            System.out.println(Integer.toBinaryString(k[i - 1]) + "|" + Integer.toBinaryString(tmp));
+            if (Keywords == 4) {
+                tmp ^= k[i - 3];
+            }
+//            System.out.println(Integer.toBinaryString(tmp) + "|" + Integer.toBinaryString(rotateRight(tmp, 1, 24)));
+            tmp = tmp ^ rotateRight(tmp, 1, bit);
+//            System.out.println(Integer.toBinaryString(tmp));
+//            System.out.println("");
+            //k[i] = (tmp ^ k[i - Keywords] ^ z0[(i - Keywords) % 62] ^ c) & 0xFFFFFF;
+//            System.out.println("tmp = " + Integer.toBinaryString(tmp));
+//            System.out.println("k[" + (i - keyWords) + "] = " + Integer.toBinaryString(k[i - keyWords]));
+//            System.out.println("z0[" + ((i - keyWords) % 62) + "] = " + Integer.toBinaryString(z0[(i - keyWords) % 62]));
+//            System.out.println("c = " + Integer.toBinaryString(c));
+//            System.out.println("k[" + i + "] = " + Integer.toBinaryString(k[i]));
+//            System.out.println("");
+        }
+        return k;
+    }
+
+    public int rotateRight(int n, int s, int bits) {
+        return ((n >>> s) | (n << (bits - s)));//Rotasi nilai bit RGB per pixel ke kanan
+    }
+
+    public int rotateLeft(int n, int s, int bits) {
+        return ((n << s) | (n >>> (bits - s)));//Rotasi nilai bit RGB per pixel ke kiri
+    }
 //    private void genQr() {
 //        System.out.println("Coba Lagi");
 //        BarcodeDetector detector =
