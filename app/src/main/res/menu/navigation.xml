@@ -4,20 +4,24 @@
     <item
         android:id="@+id/navigation_home"
         android:icon="@drawable/ic_home_black_24dp"
+        android:label="Home"
         android:title="@string/title_home" />
 
     <item
         android:id="@+id/navigation_dashboard"
         android:icon="@mipmap/ic_decrypt_none"
+        android:label="Simon"
         android:title="Simon" />
 
     <item
         android:id="@+id/navigation_notifications"
         android:icon="@mipmap/ic_encrypt_none"
+        android:label="Encrypt"
         android:title="Encrypt" />
     <item
         android:id="@+id/navigation_dashboard2"
-        android:icon="@mipmap/ic_simon_none"
+        android:icon="@mipmap/ic_cek_code"
+        android:label="Decrypt"
         android:title="Decrypt" />
 
 

@@ -103,6 +103,7 @@ public class SimonFragment extends Fragment {
 
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        getActivity().setTitle("Simon");
         spinner1 = (MaterialSpinner) view.findViewById(R.id.spinner);
         spinner2 = (MaterialSpinner) view.findViewById(R.id.spinner2);
         editText1 = (EditText) view.findViewById(R.id.word);

@@ -29,6 +29,7 @@ public class HomeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
     MaterialSpinner spinner1, spinner2, spinner3, spinner4, spinner5, spinner6, spinner7;
 
     private OnFragmentInteractionListener mListener;
@@ -68,13 +69,14 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 //        spinner1 = (MaterialSpinner) view.findViewById(R.id.spinner);
+        getActivity().setTitle("Home");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v =inflater.inflate(R.layout.fragment_home, container, false);
+        View v = inflater.inflate(R.layout.fragment_home, container, false);
 
         return v;
     }

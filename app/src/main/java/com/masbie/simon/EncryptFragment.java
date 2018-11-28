@@ -92,6 +92,7 @@ public class EncryptFragment extends Fragment {
 
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        getActivity().setTitle("Encrypt");
         keyEnc = (EditText) view.findViewById(R.id.keyEnc);
         plainEnc = (EditText) view.findViewById(R.id.plainEnc);
         // chipEnc = (EditText) view.findViewById(R.id.chipEnc);

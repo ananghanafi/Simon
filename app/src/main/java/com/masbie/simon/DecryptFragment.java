@@ -19,6 +19,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -72,6 +73,7 @@ public class DecryptFragment extends Fragment implements ZXingScannerView.Result
     private String mParam2;
     EditText keyDec, hasilScanDec, hasilDec;
     Button btDec, cobaBar;
+    CardView btCard;
     private ZXingScannerView mScannerView;
     Intent tampil;
     Bundle extras;
@@ -138,24 +140,27 @@ public class DecryptFragment extends Fragment implements ZXingScannerView.Result
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        getActivity().setTitle("Decrypt");
         mScannerView = new ZXingScannerView(getActivity());   // Programmatically initialize the scanner view
 
         keyDec = (EditText) view.findViewById(R.id.keyDec);
         //  hasilScanDec = (EditText) view.findViewById(R.id.hasilScan);
         //hasilDec = (EditText) view.findViewById(R.id.hasilDec);
         btDec = (Button) view.findViewById(R.id.btDecrypt);
-        cobaBar = (Button) view.findViewById(R.id.cobBarcode);
+        btCard = (CardView) view.findViewById(R.id.cobBarcode);
+        //  cobaBar = (Button) view.findViewById(R.id.cobBarcode);
         textView = (TextView) view.findViewById(R.id.hasilScanT);
         hasilDecT = (TextView) view.findViewById(R.id.hasilDecT);
         linDecWakt = (LinearLayout) view.findViewById(R.id.lindecWaktu);
         gg = getActivity().getIntent().getStringExtra("ambilNilai");
         //    gg = getArguments().getString("my_key");
+
         textView.setText(String.valueOf(gg));
         btDec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ambilKey == null || hasilScanS == null || ambilKey.equals("") ||
-                        hasilScanS.equals("") || ambilKey.equals(" ") || hasilScanS.equals(" ")) {
+                if (ambilKey == null || gg == null || ambilKey.equals("") ||
+                        gg.equals("") || ambilKey.equals(" ") || gg.equals(" ")) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setTitle("Warning..!!!");
                     builder.setMessage("Hasil scan dan key nya harus terisi").setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -178,12 +183,12 @@ public class DecryptFragment extends Fragment implements ZXingScannerView.Result
                     // endTime = System.nanoTime();
                     endTime = System.currentTimeMillis();
                     elapTime = endTime - startTime;
-                    textView.setText("Waktu untuk encrypt = " + elapTime+" ms");
+                    textView.setText("Waktu untuk encrypt = " + elapTime + " ms");
                     linDecWakt.setVisibility(View.VISIBLE);
                 }
             }
         });
-        cobaBar.setOnClickListener(new View.OnClickListener() {
+        btCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent hh = new Intent(getActivity(), ZxingBarcode.class);
