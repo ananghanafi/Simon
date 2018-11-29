@@ -193,6 +193,14 @@
                 android:paddingTop="16dp"
                 android:textSize="18dp" />
 
+
+            <Button
+                android:id="@+id/btDecrypt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:text="Decrypt" />
+
             <LinearLayout
                 android:id="@+id/lindecWaktu"
                 android:layout_width="wrap_content"
@@ -209,15 +217,8 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <Button
-                android:id="@+id/btDecrypt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorAccent"
-                android:text="Decrypt" />
-
-
             <LinearLayout
+
                 android:layout_width="wrap_content"
                 android:layout_height="55dp"></LinearLayout>
         </LinearLayout>

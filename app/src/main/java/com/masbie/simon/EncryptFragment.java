@@ -51,16 +51,15 @@ public class EncryptFragment extends Fragment {
     TextView textView, chipEncT;
     LinearLayout linQR, liBar, linWaktu;
     long startTime, endTime, elapTime;
-    int Block_Size = 0;
-    int Key_Size = 64;
-    int Word_Size = 0;
-    int Keywords = 4;
-    int Const_Seq = 0;
-    int Rounds = 0;
-    String tempCost = "";
-    int c, f;
-    int indexAwal, HexWordSize;
-    int bit;
+    int[] key1;
+    int blockSize, keySize, wordSize, keyWords, zSeq, rounds, cInt, fInt;
+    String tempConst = "Z0";
+    int[][] z = {
+            {1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0},
+            {1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0},
+            {1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1},
+            {1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1},
+            {1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1}};
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -106,20 +105,22 @@ public class EncryptFragment extends Fragment {
         liBar = (LinearLayout) view.findViewById(R.id.linBar);
         linWaktu = (LinearLayout) view.findViewById(R.id.linEncWaktu);
         textView = (TextView) view.findViewById(R.id.encWaktu);
+        blockSize = 32;
+        keySize = 64;
+        wordSize = 16;
+        keyWords = 4;
+        zSeq = 0;
+        rounds = 32;
+        tempConst = "Z0";
+        cInt = 0xfffc;
+        fInt = 0xffff;
+
 //        linQR.setVisibility(View.INVISIBLE);
 //        liBar.setVisibility(view.INVISIBLE);
-        chipEncT.setText("Coba");
+        //  chipEncT.setText("Coba");
+        keyEnc.setText("1918111009080100");
+        plainEnc.setText("65656877");
 
-        Word_Size = 24;
-        Keywords = 3;
-        Const_Seq = 0;
-        Rounds = 36;
-        tempCost = "Z0";
-        c = 0xfffc;
-        f = 0xffff;
-        indexAwal = 12;
-        HexWordSize = 6;
-        bit = 24;
         btEnc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -128,7 +129,6 @@ public class EncryptFragment extends Fragment {
                 Toast.makeText(getActivity(), "Tes ", Toast.LENGTH_SHORT).show();
                 if (ambilKey == null || ambilPlaint == null || ambilKey.equals("") ||
                         ambilPlaint.equals("") || ambilKey.equals(" ") || ambilPlaint.equals(" ")) {
-
                     Toast.makeText(getActivity(), "Setealah Tes ", Toast.LENGTH_SHORT).show();
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setTitle("Warning..!!!");
@@ -142,17 +142,15 @@ public class EncryptFragment extends Fragment {
                     alert1.show();
 
                 } else {
-                    //  startTime = System.nanoTime();
-                    startTime = System.currentTimeMillis();
-//                    keyExpansion(ambilKey);
-//                    encrypt();
-                    for (int j = 0; j < 1000; j++) {
-                        Toast.makeText(getActivity(), "Coba Count " + j, Toast.LENGTH_SHORT).show();
-                    }
-                    //  endTime = System.nanoTime();
-                    endTime = System.currentTimeMillis();
+                    startTime = System.nanoTime();
+                    //startTime = System.currentTimeMillis();
+                    key1 = keyExpansion(ambilKey);
+                    encrypt();
+
+                    endTime = System.nanoTime();
+                    // endTime = System.currentTimeMillis();
                     elapTime = endTime - startTime;
-                    textView.setText("Waktu untuk encrypt = " + elapTime + " ms");
+                    textView.setText("Waktu untuk encrypt = " + elapTime + " nano second");
                     linWaktu.setVisibility(View.VISIBLE);
                 }
             }
@@ -196,61 +194,69 @@ public class EncryptFragment extends Fragment {
     }
 
     private void encrypt() {
+        int hexBlockSize = blockSize / 4;
+        String cipherText = null;
         int x = 0, y = 0, tmp;
-        for (int j = Rounds - 1; j >= 0; j--) {
-            tmp = y;
-            //  y = (x ^ (rotateLeft(y, 1, 24) & rotateLeft(y, 8, 24)) ^ rotateLeft(y, 2, 24) ^ key[j]) & f;//y = x XOR ((S^1)y AND (S^8)y) XOR (S^2)y XOR k[i]
-            x = tmp;//x = y
+        x = Integer.parseInt(plainEnc.getText().toString().substring(0, hexBlockSize / 2), 16);
+        y = Integer.parseInt(plainEnc.getText().toString().substring(hexBlockSize / 2, hexBlockSize), 16);
+        for (int j = 0; j < rounds; j++) {
+            tmp = x;
+            x = (y ^ (rotateLeft(x, 1, wordSize) & rotateLeft(x, 8, wordSize)) ^ rotateLeft(x, 2, wordSize) ^ key1[j]) & fInt;//x = y XOR ((S^1)x AND (S^8)x) XOR (S^2)x XOR k[i]
+            y = tmp;//y = x
         }
-
+        cipherText = String.format("%0" + (hexBlockSize / 2) + "x", x) + String.format("%0" + (hexBlockSize / 2) + "x", y);
+        chipEncT.setText(cipherText);
+//        editCipherT.setText(cipherText);
     }
 
-    private void decrypt() {
-        int x = 0, y = 0, tmp;
-        for (int j = Rounds - 1; j >= 0; j--) {
-            tmp = y;
-            //       y = (x ^ (rotateLeft(y, 1, 24) & rotateLeft(y, 8, 24)) ^ rotateLeft(y, 2, 24) ^ key[j]) & 0xFFFFFF;//y = x XOR ((S^1)y AND (S^8)y) XOR (S^2)y XOR k[i]
-            x = tmp;//x = y
-        }
-
-    }
 
     public int[] keyExpansion(String key) {
-        int[] k = new int[Rounds];
+        int hexWordSize = wordSize / 4;
+        int hexKeySize = keySize / 4;
+        int firstIndex = hexKeySize - hexWordSize;
+//        System.out.println("dordor: "+hexWordSize+" "+hexKeySize+" "+firstIndex);
+        int[] k = new int[rounds];
+//            key = String.format("%1$" + hexKeySize + "s", key).replace(' ', '0');
+        String kk = "asd : " + key;
+        System.out.println("kry: " + kk);
         /*Inisialisasi k[keyWords-1]..k[0]*/
-        for (int i = 0; i < Keywords; i++) {
-            int index = indexAwal - (i * HexWordSize);
-            k[i] = Integer.parseInt(key.substring(index, index + 6), 16) & f;
-//            System.out.println(key.substring(index, index + 6) + "|" + Integer.toBinaryString(k[i]));
+        for (int i = 0; i < keyWords; i++) {
+            int index = firstIndex - (i * hexWordSize);
+//            System.out.print("haloo: "+index+" ");
+//            System.out.println(index+hexWordSize);
+            k[i] = Integer.parseInt(key.substring(index, index + hexWordSize), 16) & fInt;
+            System.out.println("key round_" + i + ": " + String.format("%0" + hexWordSize + "x", k[i]));
+
         }
         /*Ekspansi Kunci*/
-        for (int i = Keywords; i < Rounds; i++) {
-            int tmp = rotateRight(k[i - 1], 3, bit);
+        for (int i = keyWords; i < rounds; i++) {
+            int tmp = rotateRight(k[i - 1], 3, wordSize);
 //            System.out.println(Integer.toBinaryString(k[i - 1]) + "|" + Integer.toBinaryString(tmp));
-            if (Keywords == 4) {
+            if (keyWords == 4) {
                 tmp ^= k[i - 3];
             }
 //            System.out.println(Integer.toBinaryString(tmp) + "|" + Integer.toBinaryString(rotateRight(tmp, 1, 24)));
-            tmp = tmp ^ rotateRight(tmp, 1, bit);
+            tmp = tmp ^ rotateRight(tmp, 1, wordSize);
 //            System.out.println(Integer.toBinaryString(tmp));
 //            System.out.println("");
-            //k[i] = (tmp ^ k[i - Keywords] ^ z0[(i - Keywords) % 62] ^ c) & 0xFFFFFF;
+            k[i] = (tmp ^ k[i - keyWords] ^ z[zSeq][(i - keyWords) % 62] ^ cInt) & fInt;
 //            System.out.println("tmp = " + Integer.toBinaryString(tmp));
 //            System.out.println("k[" + (i - keyWords) + "] = " + Integer.toBinaryString(k[i - keyWords]));
 //            System.out.println("z0[" + ((i - keyWords) % 62) + "] = " + Integer.toBinaryString(z0[(i - keyWords) % 62]));
-//            System.out.println("c = " + Integer.toBinaryString(c));
+//            System.out.println("cInt = " + Integer.toBinaryString(cInt));
 //            System.out.println("k[" + i + "] = " + Integer.toBinaryString(k[i]));
 //            System.out.println("");
+            System.out.println("key round_" + i + ": " + String.format("%0" + hexWordSize + "x", k[i]));
         }
         return k;
     }
 
     public int rotateRight(int n, int s, int bits) {
-        return ((n >>> s) | (n << (bits - s)));//Rotasi nilai bit RGB per pixel ke kanan
+        return ((n >>> s) | (n << (bits - s))) & fInt;//Rotasi nilai bit RGB per pixel ke kanan
     }
 
     public int rotateLeft(int n, int s, int bits) {
-        return ((n << s) | (n >>> (bits - s)));//Rotasi nilai bit RGB per pixel ke kiri
+        return ((n << s) | (n >>> (bits - s))) & fInt;//Rotasi nilai bit RGB per pixel ke kiri
     }
 //    private void genQr() {
 //        System.out.println("Coba Lagi");
