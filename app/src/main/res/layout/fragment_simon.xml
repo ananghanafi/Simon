@@ -58,12 +58,6 @@
                     app:ms_dropdown_height="wrap_content"
                     app:ms_dropdown_max_height="350dp" />
 
-                <TextView
-                    android:id="@+id/cekTulis"
-                    android:text="hjhu"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="10dp"></LinearLayout>
@@ -276,6 +270,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="10dp"></LinearLayout>
 
+                <TextView
+                    android:id="@+id/cekEncrypt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hasil Encrypt" />
+
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -327,6 +327,12 @@
                     android:layout_height="wrap_content"
                     android:background="@color/colorAccent"
                     android:text="Decrypt" />
+
+                <TextView
+                    android:id="@+id/cekDecrypt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hasil Decrypt" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
