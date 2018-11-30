@@ -76,6 +76,7 @@
                             android:id="@+id/word"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:editable="false"
                             android:gravity="top|left"
                             android:hint="Word Size"
                             android:scrollbars="vertical" />
@@ -90,6 +91,7 @@
                             android:id="@+id/keyword"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:editable="false"
                             android:gravity="top|left"
                             android:hint="Keyword"
                             android:scrollbars="vertical" />
@@ -109,6 +111,7 @@
                             android:id="@+id/consts"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:editable="false"
                             android:gravity="top|left"
                             android:hint="Const Seq"
                             android:scrollbars="vertical" />
@@ -122,6 +125,7 @@
                             android:id="@+id/round"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:editable="false"
                             android:gravity="top|left"
                             android:hint="Round"
                             android:scrollbars="vertical" />
@@ -158,8 +162,9 @@
                             android:id="@+id/Key0"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:editable="false"
                             android:gravity="top|left"
-                            android:hint="0"
+                            android:hint="KEY [3]"
                             android:scrollbars="vertical" />
                     </android.support.design.widget.TextInputLayout>
 
@@ -171,8 +176,9 @@
                             android:id="@+id/Key1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:editable="false"
                             android:gravity="top|left"
-                            android:hint="0"
+                            android:hint="KEY [2]"
                             android:scrollbars="vertical" />
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
@@ -190,8 +196,9 @@
                             android:id="@+id/Key2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:editable="false"
                             android:gravity="top|left"
-                            android:hint="0"
+                            android:hint="KEY [1]"
                             android:scrollbars="vertical" />
                     </android.support.design.widget.TextInputLayout>
 
@@ -203,8 +210,9 @@
                             android:id="@+id/Key3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:editable="false"
                             android:gravity="top|left"
-                            android:hint="0"
+                            android:hint="KEY [0]"
                             android:scrollbars="vertical" />
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
@@ -240,8 +248,9 @@
                             android:id="@+id/up"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:editable="false"
                             android:gravity="top|left"
-                            android:hint="0000"
+                            android:hint="Upper Byte"
                             android:scrollbars="vertical" />
                     </android.support.design.widget.TextInputLayout>
 
@@ -253,8 +262,9 @@
                             android:id="@+id/down"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:editable="false"
                             android:gravity="top|left"
-                            android:hint="0000"
+                            android:hint="Down Byte"
                             android:scrollbars="vertical" />
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
@@ -302,8 +312,9 @@
                             android:id="@+id/up1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:editable="false"
                             android:gravity="top|left"
-                            android:hint="0000"
+                            android:hint="Upper Byte"
                             android:scrollbars="vertical" />
                     </android.support.design.widget.TextInputLayout>
 
@@ -315,8 +326,9 @@
                             android:id="@+id/down1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:editable="false"
                             android:gravity="top|left"
-                            android:hint="0000"
+                            android:hint="Down Byte"
                             android:scrollbars="vertical" />
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>

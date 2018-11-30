@@ -175,9 +175,10 @@ public class SimonFragment extends Fragment {
         vector[9][1] = "74206e69206d6f6f6d69732061207369"; //plaintext
         //Ciphertext:8d2b5579afc8a3a03bf72a87efe7b868
 
+//Hasil inputan dari key dan plainText
         editKey.setText(vector[4][0]);
         editPlainT.setText(vector[4][1]);
-
+//Spiner pemilihan nilai block size
         strSpinner1 = new String[]{
                 "0", "32", "48", "64", "96", "128"
         };
@@ -200,6 +201,7 @@ public class SimonFragment extends Fragment {
                 Snackbar.make(spinner, "Belum di pilih", Snackbar.LENGTH_LONG).show();
             }
         });
+//Spiner pemilihan nilai keysize
         strSpinner2 = new String[]{
                 "0", "64", "72", "96", "128", "144", "192", "256"
         };
@@ -211,13 +213,9 @@ public class SimonFragment extends Fragment {
                 // posisi = position;
                 posisi2 = position;
                 Snackbar.make(view, "Nilai " + strSpinner2[position], Snackbar.LENGTH_LONG).show();
-                // String setHarga = harga.setText();
-                //     Snackbar.make(view, "Clicked " + item, Snackbar.LENGTH_LONG).show();
+                //Menjalankan method pisah()
                 pisah();
-//                editWord.setText(wordSize);
-//                editConsts.setText(zSeq);
-//                editKeyWord.setText(keyWords);
-//                editRound.setText(rounds);
+
             }
         });
         spinner2.setOnNothingSelectedListener(new MaterialSpinner.OnNothingSelectedListener() {
@@ -228,51 +226,14 @@ public class SimonFragment extends Fragment {
 
             }
         });
-//        editKey.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable ed) {
-//                String key;
-//                int hexWordSize = wordSize / 4;
-//                int hexKeySize = keySize / 4;
-//                int firstIndex = hexKeySize - hexWordSize;
-//                String[] k = new String[rounds];
-//                key=ed.toString();
-//                /*Inisialisasi k[keyWords-1]..k[0]*/
-//                for (int i = 0; i < keyWords; i++) {
-//                    int index = firstIndex - (i * hexWordSize);
-//                    k[i] = key.substring(index, index + hexWordSize);
-//                }
-//                if (keyWords == 2) {
-//                    editKey0.setText(k[0]);
-//                    editKey1.setText(k[1]);
-//                    editKey2.setText("none");
-//                    editKey3.setText("none");
-//                } else if (keyWords == 3) {
-//                    editKey0.setText(k[0]);
-//                    editKey1.setText(k[1]);
-//                    editKey2.setText(k[2]);
-//                    editKey3.setText("none");
-//                } else if (keyWords == 4) {
-//                    editKey0.setText(k[0]);
-//                    editKey1.setText(k[1]);
-//                    editKey2.setText(k[2]);
-//                    editKey3.setText(k[3]);
-//                }
-//            }
-//        });
+//Saat button encrypt di klik, maka
         buttonEncrypt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 keyT1 = editKey.getText().toString();
 //                Toast.makeText(getActivity(), "sss " + keyT1, Toast.LENGTH_SHORT).show();
+                //Logika untuk memilih keyExpansion
                 if (strSpinner1[posisi1].equals("32") || strSpinner1[posisi1].equals("48") || strSpinner1[posisi1].equals("64")) {
 //                    System.out.println("sss" + keyT1);
 //                    Toast.makeText(getActivity(), "sss " + keyT1, Toast.LENGTH_SHORT).show();
@@ -285,28 +246,79 @@ public class SimonFragment extends Fragment {
                 encrypt();
             }
         });
+        //Saat button decrypt di klik,
         buttonDecrypt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //menjalankan method decrypt
                 decrypt();
             }
         });
+        editKey0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String key;
+                int hexWordSize = wordSize / 4;
+                int hexKeySize = keySize / 4;
+                int firstIndex = hexKeySize - hexWordSize;
+                String[] k = new String[rounds];
+                key = editKey.getText().toString();
+                //Inisialisasi k[ keyWords - 1]..k[0] /
+                for (int i = 0; i < keyWords; i++) {
+                    int index = i * hexWordSize;
+                    k[i] = key.substring(index, index + hexWordSize);
+                }
+                if (keyWords == 2) {
+                    editKey0.setText(k[0]);
+                    editKey1.setText(k[1]);
+                    editKey2.setText("none");
+                    editKey3.setText("none");
+                } else if (keyWords == 3) {
+                    editKey0.setText(k[0]);
+                    editKey1.setText(k[1]);
+                    editKey2.setText(k[2]);
+                    editKey3.setText("none");
+                } else if (keyWords == 4) {
+                    editKey0.setText(k[0]);
+                    editKey1.setText(k[1]);
+                    editKey2.setText(k[2]);
+                    editKey3.setText(k[3]);
+                }
+                // editKey0.setText("sdsd");
+            }
+        });
+        editUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String plain;
+                plain = editPlainT.getText().toString();
+                int index, temp;
+                String[] k = new String[2];
+                for (int i = 0; i <= 2; i++) {
+                    k[i] = plain.substring(1, 2);
+                }
 
+            }
+        });
+        editUp1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
 
     public void pisah() {
-
         Toast.makeText(getActivity(), "pisah() ", Toast.LENGTH_SHORT).show();
+        //Mengambil data bloksiz dan keySize dari kedua spinner
         blockSize = Integer.parseInt(strSpinner1[posisi1]);
         keySize = Integer.parseInt(strSpinner2[posisi2]);
         System.out.print("dor: ");
         System.out.println(blockSize + keySize);
         System.out.println("keySize apa");
         System.out.println("keySize " + strSpinner1[posisi1]);
-//        if (strSpinner1[posisi1].equals("32")) {
-//            System.out.println("keySize kk");
-//        }
+        //Logika untuk mengambil nila wordSize, keyWord dll sesuai dengan blokSize dan keySize
         if (strSpinner1[posisi1].equals("32") && strSpinner2[posisi2].equals("64")) {
             wordSize = 16;
             keyWords = 4;
@@ -315,14 +327,6 @@ public class SimonFragment extends Fragment {
             tempConst = "Z0";
             cInt = 0xfffc;
             fInt = 0xffff;
-
-//            editWord.setText(wordSize);
-//            editConsts.setText(zSeq);
-//            editKeyWord.setText(keyWords);
-//            editRound.setText(rounds);
-//            textCekEncrypt.setText(wordSize);
-
-            System.out.println("keySize == 32 && keyWords ==4 " + Integer.parseInt(strSpinner1[posisi1]) + " dan " + tempConst);
         } else if (strSpinner1[posisi1].equals("48") && strSpinner2[posisi2].equals("72")) {
             wordSize = 24;
             keyWords = 3;
@@ -331,10 +335,6 @@ public class SimonFragment extends Fragment {
             tempConst = "Z0";
             cInt = 0xfffffc;
             fInt = 0xffffff;
-//            editWord.setText(wordSize);
-//            editConsts.setText(zSeq);
-//            editKeyWord.setText(keyWords);
-//            editRound.setText(rounds);
         } else if (strSpinner1[posisi1].equals("48") && strSpinner2[posisi2].equals("96")) {
             wordSize = 24;
             keyWords = 4;
@@ -343,10 +343,6 @@ public class SimonFragment extends Fragment {
             tempConst = "Z1";
             cInt = 0xfffffc;
             fInt = 0xffffff;
-//            editWord.setText(wordSize);
-//            editConsts.setText(zSeq);
-//            editKeyWord.setText(keyWords);
-//            editRound.setText(rounds);
         } else if (strSpinner1[posisi1].equals("64") && strSpinner2[posisi2].equals("96")) {
             wordSize = 32;
             keyWords = 3;
@@ -355,10 +351,6 @@ public class SimonFragment extends Fragment {
             tempConst = "Z2";
             cInt = 0xfffffffc;
             fInt = 0xffffffff;
-//            editWord.setText(wordSize);
-//            editConsts.setText(zSeq);
-//            editKeyWord.setText(keyWords);
-//            editRound.setText(rounds);
         } else if (strSpinner1[posisi1].equals("64") && strSpinner2[posisi2].equals("128")) {
             wordSize = 32;
             keyWords = 4;
@@ -367,10 +359,6 @@ public class SimonFragment extends Fragment {
             tempConst = "Z3";
             cInt = 0xfffffffc;
             fInt = 0xffffffff;
-//            editWord.setText(wordSize);
-//            editConsts.setText(zSeq);
-//            editKeyWord.setText(keyWords);
-//            editRound.setText(rounds);
         } else if (strSpinner1[posisi1].equals("96") && strSpinner2[posisi2].equals("96")) {
             wordSize = 48;
             keyWords = 2;
@@ -379,10 +367,6 @@ public class SimonFragment extends Fragment {
             tempConst = "Z2";
             cLong = 0xfffffffffffcl;
             fLong = 0xffffffffffffl;
-//            editWord.setText(wordSize);
-//            editConsts.setText(zSeq);
-//            editKeyWord.setText(keyWords);
-//            editRound.setText(rounds);
         } else if (strSpinner1[posisi1].equals("96") && strSpinner2[posisi2].equals("144")) {
             wordSize = 48;
             keyWords = 3;
@@ -391,10 +375,6 @@ public class SimonFragment extends Fragment {
             tempConst = "Z3";
             cLong = 0xfffffffffffcl;
             fLong = 0xffffffffffffl;
-//            editWord.setText(wordSize);
-//            editConsts.setText(zSeq);
-//            editKeyWord.setText(keyWords);
-//            editRound.setText(rounds);
         } else if (strSpinner1[posisi1].equals("128") && strSpinner2[posisi2].equals("128")) {
             wordSize = 64;
             keyWords = 2;
@@ -403,10 +383,6 @@ public class SimonFragment extends Fragment {
             tempConst = "Z2";
             cLong = 0xfffffffffffffffcl;
             fLong = 0xffffffffffffffffl;
-//            editWord.setText(wordSize);
-//            editConsts.setText(zSeq);
-//            editKeyWord.setText(keyWords);
-//            editRound.setText(rounds);
         } else if (strSpinner1[posisi1].equals("128") && strSpinner2[posisi2].equals("192")) {
             wordSize = 64;
             keyWords = 3;
@@ -415,10 +391,6 @@ public class SimonFragment extends Fragment {
             tempConst = "Z3";
             cLong = 0xfffffffffffffffcl;
             fLong = 0xffffffffffffffffl;
-//            editWord.setText(wordSize);
-//            editConsts.setText(zSeq);
-//            editKeyWord.setText(keyWords);
-//            editRound.setText(rounds);
         } else if (strSpinner1[posisi1].equals("128") && strSpinner2[posisi2].equals("256")) {
             wordSize = 64;
             keyWords = 4;
@@ -427,10 +399,6 @@ public class SimonFragment extends Fragment {
             tempConst = "Z4";
             cLong = 0xfffffffffffffffcl;
             fLong = 0xffffffffffffffffl;
-//            editWord.setText(wordSize);
-//            editConsts.setText(zSeq);
-//            editKeyWord.setText(keyWords);
-//            editRound.setText(rounds);
         } else {
             wordSize = 0;
             keyWords = 0;
@@ -439,11 +407,8 @@ public class SimonFragment extends Fragment {
             tempConst = "none";
             cInt = 0xfffc;
             fInt = 0xffff;
-//            editWord.setText(wordSize);
-//            editConsts.setText(zSeq);
-//            editKeyWord.setText(keyWords);
-//            editRound.setText(rounds);
         }
+        //Menampilkan ke 4 kolom di bawah spinner
         editWord.setText(Integer.toString(wordSize));
         editConsts.setText(tempConst);
         editKeyWord.setText(Integer.toString(keyWords));
@@ -451,34 +416,6 @@ public class SimonFragment extends Fragment {
 
     }
 
-
-    public void pisah2() {
-        if (strSpinner1[posisi1].equals("64") && keyWords == 4) {
-            System.out.println("keySize == 64 && keyWords ==4 " + keySize + " dan " + keyWords + " ccc " + rounds);
-        } else if (strSpinner1[posisi1].equals("") && keyWords == 4) {
-
-        } else if (strSpinner1[posisi1].equals("") && keyWords == 4) {
-
-        } else if (strSpinner1[posisi1].equals("") && keyWords == 4) {
-
-        } else if (strSpinner1[posisi1].equals("") && keyWords == 4) {
-
-        } else if (strSpinner1[posisi1].equals("") && keyWords == 4) {
-
-        } else if (strSpinner1[posisi1].equals("") && keyWords == 4) {
-
-        } else if (strSpinner1[posisi1].equals("") && keyWords == 4) {
-
-        } else if (strSpinner1[posisi1].equals("") && keyWords == 4) {
-
-        } else if (strSpinner1[posisi1].equals("") && keyWords == 4) {
-
-        } else if (strSpinner1[posisi1].equals("") && keyWords == 4) {
-
-        } else if (strSpinner1[posisi1].equals("") && keyWords == 4) {
-
-        }
-    }
 
     private void encrypt() {
         int hexBlockSize = blockSize / 4;
