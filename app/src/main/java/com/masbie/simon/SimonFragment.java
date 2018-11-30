@@ -124,8 +124,59 @@ public class SimonFragment extends Fragment {
         buttonEncrypt = (Button) view.findViewById(R.id.btEncrypt);
         buttonDecrypt = (Button) view.findViewById(R.id.btDecrypt);
 
-        editKey.setText("1f1e1d1c1b1a191817161514131211100f0e0d0c0b0a09080706050403020100");
-        editPlainT.setText("74206e69206d6f6f6d69732061207369");
+        String[][] vector = new String[10][2];
+        //Simon32/64
+        vector[0][0] = "1918111009080100"; //key
+        vector[0][1] = "65656877"; //plaintext
+        //Ciphertext:c69be9bb
+
+        //Simon48/72
+        vector[1][0] = "1211100a0908020100"; //key
+        vector[1][1] = "6120676e696c"; //plaintext
+        //Ciphertext:dae5ac292cac
+
+        //Simon48/96
+        vector[2][0] = "1a19181211100a0908020100"; //key
+        vector[2][1] = "72696320646e"; //plaintext
+        //Ciphertext:6e06a5acf156
+
+        //Simon64/96
+        vector[3][0] = "131211100b0a090803020100"; //key
+        vector[3][1] = "6f7220676e696c63"; //plaintext
+        //Ciphertext:5ca2e27f111a8fc8
+
+        //Simon64/128
+        vector[4][0] = "1b1a1918131211100b0a090803020100"; //key
+        vector[4][1] = "656b696c20646e75"; //plaintext
+        //Ciphertext:44c8fc20b9dfa07a
+
+        //Simon96/96
+        vector[5][0] = "0d0c0b0a0908050403020100"; //key
+        vector[5][1] = "2072616c6c69702065687420"; //plaintext
+        //Ciphertext:602807a462b469063d8ff082
+
+        //Simon96/144
+        vector[6][0] = "1514131211100d0c0b0a0908050403020100"; //key
+        vector[6][1] = "74616874207473756420666f"; //plaintext
+        //Ciphertext:ecad1c6c451e3f59c5db1ae9
+
+        //Simon128/128
+        vector[7][0] = "0f0e0d0c0b0a09080706050403020100"; //key
+        vector[7][1] = "63736564207372656c6c657661727420"; //plaintext
+        //Ciphertext:49681b1e1e54fe3f65aa832af84e0bbc
+
+        //Simon128/192
+        vector[8][0] = "17161514131211100f0e0d0c0b0a09080706050403020100"; //key
+        vector[8][1] = "206572656874206e6568772065626972"; //plaintext
+        //Ciphertext:c4ac61effcdc0d4f6c9c8d6e2597b85b
+
+        //Simon128/256
+        vector[9][0] = "1f1e1d1c1b1a191817161514131211100f0e0d0c0b0a09080706050403020100"; //key
+        vector[9][1] = "74206e69206d6f6f6d69732061207369"; //plaintext
+        //Ciphertext:8d2b5579afc8a3a03bf72a87efe7b868
+
+        editKey.setText(vector[4][0]);
+        editPlainT.setText(vector[4][1]);
 
         strSpinner1 = new String[]{
                 "0", "32", "48", "64", "96", "128"
@@ -441,7 +492,7 @@ public class SimonFragment extends Fragment {
                 x = (y ^ (rotateLeft(x, 1, wordSize) & rotateLeft(x, 8, wordSize)) ^ rotateLeft(x, 2, wordSize) ^ key1[j]) & fInt;//x = y XOR ((S^1)x AND (S^8)x) XOR (S^2)x XOR k[i]
                 y = tmp;//y = x
             }
-            cipherText=String.format("%0" + (hexBlockSize / 2) + "x", x) + String.format("%0" + (hexBlockSize / 2) + "x", y);
+            cipherText = String.format("%0" + (hexBlockSize / 2) + "x", x) + String.format("%0" + (hexBlockSize / 2) + "x", y);
         } else if (blockSize == 96 || blockSize == 128) {
             long x = 0, y = 0, tmp;
             x = Long.parseLong(editPlainT.getText().toString().substring(0, hexBlockSize / 2), 16);
@@ -451,7 +502,7 @@ public class SimonFragment extends Fragment {
                 x = (y ^ (rotateLeft(x, 1, wordSize) & rotateLeft(x, 8, wordSize)) ^ rotateLeft(x, 2, wordSize) ^ key2[j]) & fLong;//x = y XOR ((S^1)x AND (S^8)x) XOR (S^2)x XOR k[i]
                 y = tmp;//y = x
             }
-            cipherText=String.format("%0" + (hexBlockSize / 2) + "x", x) + String.format("%0" + (hexBlockSize / 2) + "x", y);
+            cipherText = String.format("%0" + (hexBlockSize / 2) + "x", x) + String.format("%0" + (hexBlockSize / 2) + "x", y);
 //            textCekEncrypt.setText(String.format("%0" + (hexBlockSize / 2) + "x", x) + String.format("%0" + (hexBlockSize / 2) + "x", y));
 //            editCipherT.setText(String.format("%0" + (hexBlockSize / 2) + "x", x) + String.format("%0" + (hexBlockSize / 2) + "x", y));
         }
