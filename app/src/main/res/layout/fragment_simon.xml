@@ -347,6 +347,29 @@
                     android:text="Hasil Decrypt" />
 
                 <LinearLayout
+                    android:id="@+id/linListVieEnc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ListView
+                        android:id="@+id/listViewEnc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"></ListView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linListVieDec"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ListView
+                        android:id="@+id/listViewDec"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"></ListView>
+                </LinearLayout>
+
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="55dp"></LinearLayout>
             </LinearLayout>

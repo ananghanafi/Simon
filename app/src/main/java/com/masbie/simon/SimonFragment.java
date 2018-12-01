@@ -1,6 +1,8 @@
 package com.masbie.simon;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,8 +11,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +42,9 @@ public class SimonFragment extends Fragment {
     Button buttonEncrypt, buttonDecrypt;
     TextView textCekEncrypt, textCekDecrypt;
     int posisi1 = 0, posisi2 = 0;
+    LinearLayout linEnc, linDec;
+    ListView listEnc, listDec;
+    ArrayAdapter<String> adapter;
 
     // Inisialisai Variabel Global
     int blockSize = 32;
@@ -123,6 +131,11 @@ public class SimonFragment extends Fragment {
         textCekDecrypt = (TextView) view.findViewById(R.id.cekDecrypt);
         buttonEncrypt = (Button) view.findViewById(R.id.btEncrypt);
         buttonDecrypt = (Button) view.findViewById(R.id.btDecrypt);
+        linEnc = (LinearLayout) view.findViewById(R.id.linEncWaktu);
+        linDec = (LinearLayout) view.findViewById(R.id.lindecWaktu);
+        listEnc = (ListView) view.findViewById(R.id.listViewEnc);
+        listDec = (ListView) view.findViewById(R.id.listViewDec);
+      //  adapter = new ArrayAdapter<String>(getActivity(), R.id.listViewEnc, "i");
 
         String[][] vector = new String[10][2];
         //Simon32/64
@@ -230,28 +243,62 @@ public class SimonFragment extends Fragment {
         buttonEncrypt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                keyT1 = editKey.getText().toString();
+                if (strSpinner1[posisi1].equals("") || strSpinner1[posisi1].equals("0") || strSpinner1[posisi1] == null
+                        || strSpinner2[posisi2].equals("") || strSpinner2[posisi2].equals("0") || strSpinner2[posisi2] == null
+                        || editKey.getText().toString().equals("") || editKey.getText().toString().equals("0") || editKey.getText().toString() == null
+                        || editPlainT.getText().toString().equals("") || editPlainT.getText().toString().equals("0") || editPlainT.getText().toString() == null
+                        ) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+                    alert.setTitle("Warning..!!!").setMessage("Pastikan kalau Bloksize, Keysize, Key dan PlaintText sudah terisi dengan benar")
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.cancel();
+                                }
+                            });
+                    AlertDialog alert1 = alert.create();
+                    alert1.show();
+                } else {
+                    keyT1 = editKey.getText().toString();
 //                Toast.makeText(getActivity(), "sss " + keyT1, Toast.LENGTH_SHORT).show();
-                //Logika untuk memilih keyExpansion
-                if (strSpinner1[posisi1].equals("32") || strSpinner1[posisi1].equals("48") || strSpinner1[posisi1].equals("64")) {
+                    //Logika untuk memilih keyExpansion
+                    if (strSpinner1[posisi1].equals("32") || strSpinner1[posisi1].equals("48") || strSpinner1[posisi1].equals("64")) {
 //                    System.out.println("sss" + keyT1);
 //                    Toast.makeText(getActivity(), "sss " + keyT1, Toast.LENGTH_SHORT).show();
-                    key1 = keyExpansion1(keyT1);
+                        key1 = keyExpansion1(keyT1);
 //                    encrypt();
-                } else if (strSpinner1[posisi1].equals("96") || strSpinner1[posisi1].equals("128")) {
-                    key2 = keyExpansion2(keyT1);
+                    } else if (strSpinner1[posisi1].equals("96") || strSpinner1[posisi1].equals("128")) {
+                        key2 = keyExpansion2(keyT1);
 //                    encrypt();
+                    }
+                    encrypt();
                 }
-                encrypt();
             }
         });
         //Saat button decrypt di klik,
         buttonDecrypt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //menjalankan method decrypt
-                decrypt();
+                if (strSpinner1[posisi1].equals("") || strSpinner1[posisi1].equals("0") || strSpinner1[posisi1] == null
+                        || strSpinner2[posisi2].equals("") || strSpinner2[posisi2].equals("0") || strSpinner2[posisi2] == null
+                        || editKey.getText().toString().equals("") || editKey.getText().toString().equals("0") || editKey.getText().toString() == null
+                        || editCipherT.getText().toString().equals("") || editCipherT.getText().toString().equals("0") || editCipherT.getText().toString() == null
+                        ) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+                    alert.setTitle("Warning..!!!").setMessage("Pastikan kalau Bloksize, Keysize, Key dan CipherText sudah terisi dengan benar")
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.cancel();
+                                }
+                            });
+                    AlertDialog alert1 = alert.create();
+                    alert1.show();
+                } else {
+                    //menjalankan method decrypt
+                    decrypt();
+                }
+
             }
         });
         editKey0.setOnClickListener(new View.OnClickListener() {
@@ -294,15 +341,27 @@ public class SimonFragment extends Fragment {
                 plain = editPlainT.getText().toString();
                 int index, temp;
                 String[] k = new String[2];
-                for (int i = 0; i <= 2; i++) {
-                    k[i] = plain.substring(1, 2);
-                }
+                index = plain.length();
+                temp = index / 2;
+                k[0] = plain.substring(0, temp);
+                k[1] = plain.substring(temp, (index - temp) + temp);
+                editUp.setText(k[0]);
+                editDown.setText(k[1]);
             }
         });
         editUp1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                String hasil;
+                hasil = editCipherT.getText().toString();
+                int index, temp;
+                String[] k = new String[2];
+                index = hasil.length();
+                temp = index / 2;
+                k[0] = hasil.substring(0, temp);
+                k[1] = hasil.substring(temp, (index - temp) + temp);
+                editUp1.setText(k[0]);
+                editDown1.setText(k[1]);
             }
         });
     }
