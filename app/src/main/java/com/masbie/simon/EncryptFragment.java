@@ -4,10 +4,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -20,16 +18,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.vision.barcode.Barcode;
-import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
-import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
-
-import static com.google.zxing.BarcodeFormat.CODE_128;
 
 
 /**
@@ -45,10 +38,10 @@ public class EncryptFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    EditText keyEnc, plainEnc, chipEnc;
+    EditText keyEnc, plainText, chipEnc;
     Button btEnc, btEncQr, btEncbar;
     ImageView qrCode, barcode;
-    TextView textView, chipEncT;
+    TextView textView, cipherText;
     LinearLayout linQR, liBar, linWaktu;
     long startTime, endTime, elapTime;
     int[] key1;
@@ -93,9 +86,9 @@ public class EncryptFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         getActivity().setTitle("Encrypt");
         keyEnc = (EditText) view.findViewById(R.id.keyEnc);
-        plainEnc = (EditText) view.findViewById(R.id.plainEnc);
+        plainText = (EditText) view.findViewById(R.id.plainEnc);
         // chipEnc = (EditText) view.findViewById(R.id.chipEnc);
-        chipEncT = (TextView) view.findViewById(R.id.tChip);
+        cipherText = (TextView) view.findViewById(R.id.tChip);
         btEnc = (Button) view.findViewById(R.id.btEnc);
         btEncQr = (Button) view.findViewById(R.id.btGenqr);
         btEncbar = (Button) view.findViewById(R.id.btGenbar);
@@ -117,19 +110,24 @@ public class EncryptFragment extends Fragment {
 
 //        linQR.setVisibility(View.INVISIBLE);
 //        liBar.setVisibility(view.INVISIBLE);
-        //  chipEncT.setText("Coba");
+        //  cipherText.setText("Coba");
         keyEnc.setText("1918111009080100");
-        plainEnc.setText("65656877");
+        plainText.setText("eehw");
 
         btEnc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String ambilKey = keyEnc.getText().toString();
-                String ambilPlaint = plainEnc.getText().toString();
+                String ambilPlainT = plainText.getText().toString();
+                String hexPlainT = "";
+                String hexCipherT = "";
+                int plainLength = ambilPlainT.length();
+                int modPlainLength = plainLength % 4;
+                double numEnc = Math.ceil((double)plainLength/4);
                 Toast.makeText(getActivity(), "Tes ", Toast.LENGTH_SHORT).show();
-                if (ambilKey == null || ambilPlaint == null || ambilKey.equals("") ||
-                        ambilPlaint.equals("") || ambilKey.equals(" ") || ambilPlaint.equals(" ")) {
-                    Toast.makeText(getActivity(), "Setealah Tes ", Toast.LENGTH_SHORT).show();
+                if (ambilKey == null || ambilPlainT == null || ambilKey.equals("") ||
+                        ambilPlainT.equals("") || ambilKey.equals(" ") || ambilPlainT.equals(" ")) {
+                    Toast.makeText(getActivity(), "Setelah Tes ", Toast.LENGTH_SHORT).show();
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setTitle("Warning..!!!");
                     builder.setMessage("Isi key dan plaint text dengan benar").setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -145,12 +143,24 @@ public class EncryptFragment extends Fragment {
                     startTime = System.nanoTime();
                     //startTime = System.currentTimeMillis();
                     key1 = keyExpansion(ambilKey);
-                    encrypt();
-
+                    if (modPlainLength != 0) {
+                        for (int i = 0; i < (4 - modPlainLength); i++) {
+                            ambilPlainT += "*";
+                        }
+                    }
+                    for (int i = 0; i < ambilPlainT.length(); i++) {
+                        int p = ambilPlainT.charAt(i);
+                        hexPlainT += Integer.toHexString(p);
+                    }
+                    for (int i = 0; i < numEnc; i++){
+                        int index = i*8;
+                        hexCipherT += encrypt(hexPlainT.substring(index, index+8));
+                    }
+                    cipherText.setText(hexCipherT);
                     endTime = System.nanoTime();
                     // endTime = System.currentTimeMillis();
                     elapTime = endTime - startTime;
-                    textView.setText("Waktu untuk encrypt = " + elapTime + " nano second");
+                    textView.setText("Waktu untuk encrypt = " + elapTime + " nanosecond");
                     linWaktu.setVisibility(View.VISIBLE);
                 }
             }
@@ -158,7 +168,7 @@ public class EncryptFragment extends Fragment {
         btEncQr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String hasil = chipEncT.getText().toString();
+                String hasil = cipherText.getText().toString();
                 MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
                 try {
                     BitMatrix bitMatrix = multiFormatWriter.encode(hasil, BarcodeFormat.QR_CODE, 800, 800);
@@ -175,7 +185,7 @@ public class EncryptFragment extends Fragment {
         btEncbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String hasil = chipEncT.getText().toString();
+                String hasil = cipherText.getText().toString();
                 MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
                 try {
                     BitMatrix bitMatrix1 = multiFormatWriter.encode(hasil, BarcodeFormat.CODE_128, 800, 400);
@@ -193,20 +203,21 @@ public class EncryptFragment extends Fragment {
 
     }
 
-    private void encrypt() {
+    private String encrypt(String plainT) {
         int hexBlockSize = blockSize / 4;
         String cipherText = null;
         int x = 0, y = 0, tmp;
-        x = Integer.parseInt(plainEnc.getText().toString().substring(0, hexBlockSize / 2), 16);
-        y = Integer.parseInt(plainEnc.getText().toString().substring(hexBlockSize / 2, hexBlockSize), 16);
+        x = Integer.parseInt(plainT.substring(0, hexBlockSize / 2), 16);
+        y = Integer.parseInt(plainT.substring(hexBlockSize / 2, hexBlockSize), 16);
         for (int j = 0; j < rounds; j++) {
             tmp = x;
             x = (y ^ (rotateLeft(x, 1, wordSize) & rotateLeft(x, 8, wordSize)) ^ rotateLeft(x, 2, wordSize) ^ key1[j]) & fInt;//x = y XOR ((S^1)x AND (S^8)x) XOR (S^2)x XOR k[i]
             y = tmp;//y = x
         }
         cipherText = String.format("%0" + (hexBlockSize / 2) + "x", x) + String.format("%0" + (hexBlockSize / 2) + "x", y);
-        chipEncT.setText(cipherText);
+//        cipherText.setText(cipherText);
 //        editCipherT.setText(cipherText);
+        return cipherText;
     }
 
 

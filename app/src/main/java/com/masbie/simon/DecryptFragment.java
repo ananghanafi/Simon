@@ -1,55 +1,24 @@
 package com.masbie.simon;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.hardware.Camera;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
-import android.util.Log;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.zxing.Result;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
-import com.google.zxing.integration.android.*;
-import com.masbie.simon.ui.camera.CameraSource;
-import com.masbie.simon.ui.camera.CameraSourcePreview;
-
-import com.masbie.simon.ui.camera.GraphicOverlay;
-import com.google.android.gms.vision.MultiProcessor;
-import com.google.android.gms.vision.barcode.Barcode;
-import com.google.android.gms.vision.barcode.BarcodeDetector;
-
-import java.io.IOException;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
@@ -80,7 +49,7 @@ public class DecryptFragment extends Fragment implements ZXingScannerView.Result
     TextView hasilScanT, hasilDecT, decWaktu;
     LinearLayout linDecWakt;
     private long startTime, endTime, elapTime;
-    String gg;
+    String hasilScan;
     int[] key1;
     int blockSize, keySize, wordSize, keyWords, zSeq, rounds, cInt, fInt;
     String tempConst = "Z0";
@@ -153,12 +122,12 @@ public class DecryptFragment extends Fragment implements ZXingScannerView.Result
         hasilDecT = (TextView) view.findViewById(R.id.hasilDecT);
         linDecWakt = (LinearLayout) view.findViewById(R.id.lindecWaktu);
         decWaktu = (TextView) view.findViewById(R.id.decWaktu);
-        gg = getActivity().getIntent().getStringExtra("ambilNilai");
-        //    gg = getArguments().getString("my_key");
+        hasilScan = getActivity().getIntent().getStringExtra("ambilNilai");
+        //    hasilScan = getArguments().getString("my_key");
 
         keyDec.setText("1918111009080100");
-        hasilScanT.setText("c69be9bb");
-      //  hasilScanT.setText(String.valueOf(gg));
+        hasilScanT.setText(hasilScan);
+      //  hasilScanT.setText(String.valueOf(hasilScan));
         blockSize = 32;
         keySize = 64;
         wordSize = 16;
@@ -171,8 +140,16 @@ public class DecryptFragment extends Fragment implements ZXingScannerView.Result
         btDec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ambilKey == null || gg == null || ambilKey.equals("") ||
-                        gg.equals("") || ambilKey.equals(" ") || gg.equals(" ")) {
+                String ambilKey = keyDec.getText().toString();
+                String ambilCipherT = hasilScanT.getText().toString();
+                String hexPlainT = "";
+                String tempPlainT = "";
+                String plainT = "";
+                StringBuilder p =new StringBuilder();
+                int cipherLength = ambilCipherT.length();
+//                int modPlainLength = cipherLength % 4;
+                double numDec = Math.ceil((double)cipherLength/8);
+                if (ambilKey == null || ambilKey.equals("") || ambilKey.equals(" ") ) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setTitle("Warning..!!!");
                     builder.setMessage("Hasil scan dan key nya harus terisi").setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -185,17 +162,27 @@ public class DecryptFragment extends Fragment implements ZXingScannerView.Result
                     alert1.show();
 
                 } else {
-                    //startTime = System.nanoTime();
-                    startTime = System.currentTimeMillis();
+                    startTime = System.nanoTime();
+//                    startTime = System.currentTimeMillis();
                     key1 = keyExpansion(ambilKey);
-                    decrypt();
-                    for (int j = 0; j < 1070; j++) {
-                        Toast.makeText(getActivity(), "Coba COunt " + j, Toast.LENGTH_SHORT).show();
+                    for (int i = 0; i < numDec; i++){
+                        int index = i*8;
+                        hexPlainT += decrypt(ambilCipherT.substring(index, index+8));
                     }
-                    // endTime = System.nanoTime();
-                    endTime = System.currentTimeMillis();
+                    for (int i = 0; i < hexPlainT.length(); i +=2) {
+                        String str = hexPlainT.substring(i, i + 2);
+                        p.append((char) Integer.parseInt(str, 16));
+                    }
+                    tempPlainT = p.toString();
+                    plainT = tempPlainT.replace("*","");
+//                    for (int j = 0; j < 1070; j++) {
+//                        Toast.makeText(getActivity(), "Coba COunt " + j, Toast.LENGTH_SHORT).show();
+//                    }
+                    hasilDecT.setText(plainT);
+                     endTime = System.nanoTime();
+//                    endTime = System.currentTimeMillis();
                     elapTime = endTime - startTime;
-                    decWaktu.setText("Waktu untuk encrypt = " + elapTime + " ms");
+                    decWaktu.setText("Waktu untuk encrypt = " + elapTime + " nanosecond");
                     linDecWakt.setVisibility(View.VISIBLE);
                 }
             }
@@ -210,18 +197,22 @@ public class DecryptFragment extends Fragment implements ZXingScannerView.Result
 
     }
 
-    private void decrypt() {
+    private String decrypt(String cipherText) {
         int hexBlockSize = blockSize / 4;
+        String plainText = null;
         int x = 0, y = 0, tmp;
-        x = Integer.parseInt(hasilScanT.getText().toString().substring(0, hexBlockSize / 2), 16);
-        y = Integer.parseInt(hasilScanT.getText().toString().substring(hexBlockSize / 2, hexBlockSize), 16);
+
+        x = Integer.parseInt(cipherText.substring(0, hexBlockSize / 2), 16);
+        y = Integer.parseInt(cipherText.substring(hexBlockSize / 2, hexBlockSize), 16);
         for (int j = rounds - 1; j >= 0; j--) {
             tmp = y;
             y = (x ^ (rotateLeft(y, 1, wordSize) & rotateLeft(y, 8, wordSize)) ^ rotateLeft(y, 2, wordSize) ^ key1[j]) & fInt;//x = y XOR ((S^1)x AND (S^8)x) XOR (S^2)x XOR k[i]
             x = tmp;//x = y
         }
-        hasilDecT.setText(String.format("%0" + (hexBlockSize / 2) + "x", x) + String.format("%0" + (hexBlockSize / 2) + "x", y));
+        plainText=String.format("%0" + (hexBlockSize / 2) + "x", x) + String.format("%0" + (hexBlockSize / 2) + "x", y);
+        hasilDecT.setText(plainText);
 //            editCipherT.setText(String.format("%0" + (hexBlockSize / 2) + "x", x) + String.format("%0" + (hexBlockSize / 2) + "x", y));
+        return plainText;
     }
 
     public int[] keyExpansion(String key) {
