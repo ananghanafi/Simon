@@ -149,7 +149,7 @@ public class DecryptFragment extends Fragment implements ZXingScannerView.Result
                 int cipherLength = ambilCipherT.length();
 //                int modPlainLength = cipherLength % 4;
                 double numDec = Math.ceil((double)cipherLength/8);
-                if (ambilKey == null || ambilKey.equals("") || ambilKey.equals(" ") ) {
+                if (ambilKey == null || ambilKey.equals("") || ambilKey.equals(" ")||ambilCipherT == null || ambilCipherT.equals("") || ambilCipherT.equals(" ") ) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setTitle("Warning..!!!");
                     builder.setMessage("Hasil scan dan key nya harus terisi").setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
