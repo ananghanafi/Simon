@@ -136,7 +136,7 @@ public class SimonFragment extends Fragment {
         listEnc = (ListView) view.findViewById(R.id.listViewEnc);
         listDec = (ListView) view.findViewById(R.id.listViewDec);
       //  adapter = new ArrayAdapter<String>(getActivity(), R.id.listViewEnc, "i");
-
+        System.out.println("APalagi saya");
         String[][] vector = new String[10][2];
         //Simon32/64
         vector[0][0] = "1918111009080100"; //key
