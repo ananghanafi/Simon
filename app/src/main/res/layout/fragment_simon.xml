@@ -35,8 +35,8 @@
                     android:id="@+id/spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="16dp"
                     android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
                     app:ms_dropdown_height="wrap_content"
                     app:ms_dropdown_max_height="350dp" />
 
@@ -53,8 +53,8 @@
                     android:id="@+id/spinner2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="16dp"
                     android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
                     app:ms_dropdown_height="wrap_content"
                     app:ms_dropdown_max_height="350dp" />
 
@@ -239,7 +239,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="170dp"
                         android:layout_height="wrap_content">
@@ -285,6 +284,108 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Hasil Encrypt" />
+                <LinearLayout
+                    android:id="@+id/linTableEncrypt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TableLayout
+                        android:id="@+id/tableEncrypt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="invisible"
+                        android:stretchColumns="*">
+
+                        <TableRow android:background="#000000">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_span="4"
+                                android:padding="5dp"
+                                android:text="Table Simon Encrypt Round"
+                                android:textAlignment="center"
+                                android:textColor="#ffffff" />
+                        </TableRow>
+
+                        <TableRow android:background="#808080">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_span="1"
+                                android:padding="5dp"
+                                android:text="Round"
+                                android:textAlignment="center" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_span="1"
+                                android:padding="5dp"
+                                android:text="Key Expansion"
+                                android:textAlignment="center" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_span="2"
+                                android:padding="5dp"
+                                android:text="Encrypt Value"
+                                android:textAlignment="center" />
+                        </TableRow>
+
+                        <TableRow android:background="#e6e6e6">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+                                android:text="i"
+                                android:textAlignment="center" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+                                android:text="kE[i]"
+                                android:textAlignment="center" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+                                android:text="eX[i]"
+                                android:textAlignment="center" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+                                android:text="eY[i]"
+                                android:textAlignment="center" />
+                        </TableRow>
+                    </TableLayout>
+
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/timeExp1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text=""
+                    android:textAlignment="center" />
+                <TextView
+                    android:id="@+id/timeEnc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text=""
+                    android:textAlignment="center" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="10dp"></LinearLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
@@ -339,6 +440,9 @@
                     android:layout_height="wrap_content"
                     android:background="@color/colorAccent"
                     android:text="Decrypt" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="10dp"></LinearLayout>
 
                 <TextView
                     android:id="@+id/cekDecrypt"
@@ -346,28 +450,125 @@
                     android:layout_height="wrap_content"
                     android:text="Hasil Decrypt" />
 
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/linListVieEnc"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content">-->
+
+                    <!--<ListView-->
+                        <!--android:id="@+id/listViewEnc"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"></ListView>-->
+                <!--</LinearLayout>-->
+
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/linListVieDec"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content">-->
+
+                    <!--<ListView-->
+                        <!--android:id="@+id/listViewDec"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"></ListView>-->
+                <!--</LinearLayout>-->
+
                 <LinearLayout
-                    android:id="@+id/linListVieEnc"
+                    android:id="@+id/linTableDecrypt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
-                    <ListView
-                        android:id="@+id/listViewEnc"
+                    <TableLayout
+                        android:id="@+id/tableDecrypt"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"></ListView>
-                </LinearLayout>
+                        android:layout_height="wrap_content"
+                        android:visibility="invisible"
+                        android:stretchColumns="*">
 
-                <LinearLayout
-                    android:id="@+id/linListVieDec"
+                        <TableRow android:background="#000000">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_span="4"
+                                android:padding="5dp"
+                                android:text="Table Simon Decrypt Round"
+                                android:textAlignment="center"
+                                android:textColor="#ffffff" />
+                        </TableRow>
+
+                        <TableRow android:background="#808080">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_span="1"
+                                android:padding="5dp"
+                                android:text="Round"
+                                android:textAlignment="center" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_span="1"
+                                android:padding="5dp"
+                                android:text="Key Expansion"
+                                android:textAlignment="center" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_span="2"
+                                android:padding="5dp"
+                                android:text="Decrypt Value"
+                                android:textAlignment="center" />
+                        </TableRow>
+
+                        <TableRow android:background="#e6e6e6">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+                                android:text="i"
+                                android:textAlignment="center" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+                                android:text="kE[i]"
+                                android:textAlignment="center" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+                                android:text="dX[i]"
+                                android:textAlignment="center" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+                                android:text="dY[i]"
+                                android:textAlignment="center" />
+                        </TableRow>
+                    </TableLayout>
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/timeExp2"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <ListView
-                        android:id="@+id/listViewDec"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"></ListView>
-                </LinearLayout>
-
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text=""
+                    android:textAlignment="center" />
+                <TextView
+                    android:id="@+id/timeDec"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text=""
+                    android:textAlignment="center" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
