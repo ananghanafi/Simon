@@ -46,7 +46,7 @@ public class SimonFragment extends Fragment {
     Button buttonEncrypt, buttonDecrypt;
     TextView textCekEncrypt, textCekDecrypt, textTimeExp1, textTimeExp2, textTimeEnc, textTimeDec;
     int posisi1 = 0, posisi2 = 0;
-    LinearLayout linEnc, linDec;
+    LinearLayout linEnc, linDec, tamEnc, tamDec;
     ListView listEnc, listDec;
     TableLayout tableEnc, tableDec;
     ArrayAdapter<String> adapter;
@@ -142,6 +142,8 @@ public class SimonFragment extends Fragment {
         buttonDecrypt = (Button) view.findViewById(R.id.btDecrypt);
         linEnc = (LinearLayout) view.findViewById(R.id.linEncWaktu);
         linDec = (LinearLayout) view.findViewById(R.id.lindecWaktu);
+        tamEnc = (LinearLayout) view.findViewById(R.id.linTamEnc);
+        tamDec = (LinearLayout) view.findViewById(R.id.linTamDec);
 //        listEnc = (ListView) view.findViewById(R.id.listViewEnc);
 //        listDec = (ListView) view.findViewById(R.id.listViewDec);
         tableEnc = (TableLayout) view.findViewById(R.id.tableEncrypt);
@@ -289,6 +291,7 @@ public class SimonFragment extends Fragment {
                     }
                     endTime = System.nanoTime();
                     elapTime = endTime - startTime;
+                    tamEnc.setVisibility(View.VISIBLE);
                     textTimeExp1.setText("Time for Key Expansion : " + Long.toString(elapTime) + " nanoseconds");
                     startTime = System.nanoTime();
                     encrypt();
@@ -343,6 +346,7 @@ public class SimonFragment extends Fragment {
                     }
                     endTime = System.nanoTime();
                     elapTime = endTime - startTime;
+                    tamDec.setVisibility(View.VISIBLE);
                     textTimeExp2.setText("Time for Key Expansion : " + Long.toString(elapTime) + " nanoseconds");
                     //menjalankan method decrypt
                     startTime = System.nanoTime();
@@ -434,7 +438,7 @@ public class SimonFragment extends Fragment {
 
 
     public void pisah() {
-        Toast.makeText(getActivity(), "pisah() ", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "pisah() ", Toast.LENGTH_SHORT).show();
         //Mengambil data bloksiz dan keySize dari kedua spinner
         blockSize = Integer.parseInt(strSpinner1[posisi1]);
         keySize = Integer.parseInt(strSpinner2[posisi2]);

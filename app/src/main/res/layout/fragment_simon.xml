@@ -35,8 +35,8 @@
                     android:id="@+id/spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="16dp"
                     android:paddingBottom="16dp"
+                    android:paddingTop="16dp"
                     app:ms_dropdown_height="wrap_content"
                     app:ms_dropdown_max_height="350dp" />
 
@@ -53,8 +53,8 @@
                     android:id="@+id/spinner2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="16dp"
                     android:paddingBottom="16dp"
+                    android:paddingTop="16dp"
                     app:ms_dropdown_height="wrap_content"
                     app:ms_dropdown_max_height="350dp" />
 
@@ -284,6 +284,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Hasil Encrypt" />
+
                 <LinearLayout
                     android:id="@+id/linTableEncrypt"
                     android:layout_width="wrap_content"
@@ -293,8 +294,8 @@
                         android:id="@+id/tableEncrypt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:visibility="invisible"
-                        android:stretchColumns="*">
+                        android:stretchColumns="*"
+                        android:visibility="gone">
 
                         <TableRow android:background="#000000">
 
@@ -368,20 +369,31 @@
                     </TableLayout>
 
                 </LinearLayout>
-                <TextView
-                    android:id="@+id/timeExp1"
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:id="@+id/linTamEnc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text=""
-                    android:textAlignment="center" />
-                <TextView
-                    android:id="@+id/timeEnc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text=""
-                    android:textAlignment="center" />
+                    android:visibility="gone">
+
+
+                    <TextView
+                        android:id="@+id/timeExp1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:text=""
+                        android:textAlignment="center" />
+
+                    <TextView
+                        android:id="@+id/timeEnc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:text=""
+                        android:textAlignment="center" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -440,6 +452,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/colorAccent"
                     android:text="Decrypt" />
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="10dp"></LinearLayout>
@@ -451,25 +464,25 @@
                     android:text="Hasil Decrypt" />
 
                 <!--<LinearLayout-->
-                    <!--android:id="@+id/linListVieEnc"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content">-->
+                <!--android:id="@+id/linListVieEnc"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content">-->
 
-                    <!--<ListView-->
-                        <!--android:id="@+id/listViewEnc"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"></ListView>-->
+                <!--<ListView-->
+                <!--android:id="@+id/listViewEnc"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"></ListView>-->
                 <!--</LinearLayout>-->
 
                 <!--<LinearLayout-->
-                    <!--android:id="@+id/linListVieDec"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content">-->
+                <!--android:id="@+id/linListVieDec"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content">-->
 
-                    <!--<ListView-->
-                        <!--android:id="@+id/listViewDec"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"></ListView>-->
+                <!--<ListView-->
+                <!--android:id="@+id/listViewDec"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"></ListView>-->
                 <!--</LinearLayout>-->
 
                 <LinearLayout
@@ -481,8 +494,8 @@
                         android:id="@+id/tableDecrypt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:visibility="invisible"
-                        android:stretchColumns="*">
+                        android:stretchColumns="*"
+                        android:visibility="invisible">
 
                         <TableRow android:background="#000000">
 
@@ -555,20 +568,31 @@
                         </TableRow>
                     </TableLayout>
                 </LinearLayout>
-                <TextView
-                    android:id="@+id/timeExp2"
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:id="@+id/linTamDec"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text=""
-                    android:textAlignment="center" />
-                <TextView
-                    android:id="@+id/timeDec"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text=""
-                    android:textAlignment="center" />
+                    android:visibility="gone">
+
+
+                    <TextView
+                        android:id="@+id/timeExp2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:text=""
+                        android:textAlignment="center" />
+
+                    <TextView
+                        android:id="@+id/timeDec"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:text=""
+                        android:textAlignment="center" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
