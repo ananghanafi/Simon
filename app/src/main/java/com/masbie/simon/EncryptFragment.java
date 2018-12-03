@@ -123,7 +123,7 @@ public class EncryptFragment extends Fragment {
                 String hexCipherT = "";
                 int plainLength = ambilPlainT.length();
                 int modPlainLength = plainLength % 4;
-                double numEnc = Math.ceil((double)plainLength/4);
+                double numEnc = Math.ceil((double) plainLength / 4);
                 Toast.makeText(getActivity(), "Tes ", Toast.LENGTH_SHORT).show();
                 if (ambilKey == null || ambilPlainT == null || ambilKey.equals("") ||
                         ambilPlainT.equals("") || ambilKey.equals(" ") || ambilPlainT.equals(" ")) {
@@ -152,9 +152,9 @@ public class EncryptFragment extends Fragment {
                         int p = ambilPlainT.charAt(i);
                         hexPlainT += Integer.toHexString(p);
                     }
-                    for (int i = 0; i < numEnc; i++){
-                        int index = i*8;
-                        hexCipherT += encrypt(hexPlainT.substring(index, index+8));
+                    for (int i = 0; i < numEnc; i++) {
+                        int index = i * 8;
+                        hexCipherT += encrypt(hexPlainT.substring(index, index + 8));
                     }
                     cipherText.setText(hexCipherT);
                     endTime = System.nanoTime();
@@ -168,35 +168,97 @@ public class EncryptFragment extends Fragment {
         btEncQr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String ambilKey = keyEnc.getText().toString();
+                String ambilPlainT = plainText.getText().toString();
                 String hasil = cipherText.getText().toString();
                 MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
-                try {
-                    BitMatrix bitMatrix = multiFormatWriter.encode(hasil, BarcodeFormat.QR_CODE, 800, 800);
-                    BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-                    Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
-                    linQR.setVisibility(View.VISIBLE);
-                    qrCode.setImageBitmap(bitmap);
-                } catch (WriterException e) {
-                    e.printStackTrace();
-                }
+                if (ambilKey == null || ambilPlainT == null ||
+                        ambilKey.equals("") || ambilPlainT.equals("") ||
+                        ambilKey.equals(" ") || ambilPlainT.equals(" ")) {
+                    Toast.makeText(getActivity(), "Setelah Tes ", Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("Warning..!!!");
+                    builder.setMessage("Isi key dan plaint text dengan benar").setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    });
+                    AlertDialog alert1 = builder.create();
+                    alert1.show();
 
+                } else if (hasil == null || hasil.equals("") || hasil.equals(" ")) {
+                    Toast.makeText(getActivity(), "Setelah Tes ", Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("Warning..!!!");
+                    builder.setMessage("Enkripsi belum dilakukan").setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    });
+                    AlertDialog alert1 = builder.create();
+                    alert1.show();
+
+                } else {
+                    try {
+                        BitMatrix bitMatrix = multiFormatWriter.encode(hasil, BarcodeFormat.QR_CODE, 800, 800);
+                        BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+                        Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+                        linQR.setVisibility(View.VISIBLE);
+                        qrCode.setImageBitmap(bitmap);
+                    } catch (WriterException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
         btEncbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String ambilKey = keyEnc.getText().toString();
+                String ambilPlainT = plainText.getText().toString();
                 String hasil = cipherText.getText().toString();
                 MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
-                try {
-                    BitMatrix bitMatrix1 = multiFormatWriter.encode(hasil, BarcodeFormat.CODE_128, 800, 400);
-                    BarcodeEncoder barcodeEncoder1 = new BarcodeEncoder();
-                    Bitmap bitmap1 = barcodeEncoder1.createBitmap(bitMatrix1);
-                    liBar.setVisibility(View.VISIBLE);
-                    barcode.setImageBitmap(bitmap1);
-                } catch (WriterException e) {
-                    e.printStackTrace();
-                }
+                if (ambilKey == null || ambilPlainT == null ||
+                        ambilKey.equals("") || ambilPlainT.equals("") ||
+                        ambilKey.equals(" ") || ambilPlainT.equals(" ")) {
+                    Toast.makeText(getActivity(), "Setelah Tes ", Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("Warning..!!!");
+                    builder.setMessage("Isi key dan plaint text dengan benar").setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    });
+                    AlertDialog alert1 = builder.create();
+                    alert1.show();
 
+                } else if (hasil == null || hasil.equals("") || hasil.equals(" ")) {
+                    Toast.makeText(getActivity(), "Setelah Tes ", Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("Warning..!!!");
+                    builder.setMessage("Enkripsi belum dilakukan").setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    });
+                    AlertDialog alert1 = builder.create();
+                    alert1.show();
+
+                } else {
+                    try {
+                        BitMatrix bitMatrix1 = multiFormatWriter.encode(hasil, BarcodeFormat.CODE_128, 800, 400);
+                        BarcodeEncoder barcodeEncoder1 = new BarcodeEncoder();
+                        Bitmap bitmap1 = barcodeEncoder1.createBitmap(bitMatrix1);
+                        liBar.setVisibility(View.VISIBLE);
+                        barcode.setImageBitmap(bitmap1);
+                    } catch (WriterException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
 
