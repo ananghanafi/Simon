@@ -227,7 +227,7 @@ public class EncryptFragment extends Fragment {
         int firstIndex = hexKeySize - hexWordSize;
 //        System.out.println("dordor: "+hexWordSize+" "+hexKeySize+" "+firstIndex);
         int[] k = new int[rounds];
-//            key = String.format("%1$" + hexKeySize + "s", key).replace(' ', '0');
+        key = String.format("%1$" + hexKeySize + "s", key).replace(' ', '0');
         String kk = "asd : " + key;
         System.out.println("kry: " + kk);
         /*Inisialisasi k[keyWords-1]..k[0]*/
